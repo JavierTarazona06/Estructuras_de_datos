@@ -1,7 +1,8 @@
+package Data;
 public class Node {
     // Att.
-    int key;
-    Node next;
+    public int key;
+    public Node next;
 
     // Const.
     public Node(int data) {

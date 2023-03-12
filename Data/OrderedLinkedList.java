@@ -1,3 +1,5 @@
+package Data;
+
 import java.util.Scanner;
 
 public class OrderedLinkedList extends LinkedList {
