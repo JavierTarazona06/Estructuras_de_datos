@@ -88,11 +88,11 @@ public class StaticList{
         return list.toString();
     }
 
-    public static void main(String[] args){
+    public static void main(){
         Scanner input = new Scanner(System.in);
 
-        System.out.println("Ingrese tamaño de la lista");
-        int size = input.nextInt();
+        System.out.println("Ingrese tamaño de Static List");
+        int size = Integer.parseInt(input.nextLine());
 
         StaticList theList = new StaticList(size);
 

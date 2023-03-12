@@ -18,7 +18,7 @@ public class OrderedLinkedList extends LinkedList {
         prev.next = ptr;
     }
 
-    public static void main(String[] args) {
+    public static void main() {
         Scanner input = new Scanner(System.in);
 
         Node n1 = new Node(8);
@@ -42,6 +42,5 @@ public class OrderedLinkedList extends LinkedList {
 
         // theList.printindexListRecursive(theList.head);
 
-        input.close();
     }
 }
