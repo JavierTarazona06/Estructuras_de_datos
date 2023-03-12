@@ -1,13 +1,13 @@
+package Data;
+
 import java.util.*;
 public class LinkedList {
 
     // Attr.
-    Node head;
+    public Node head;
 
     // Constr.
-    public LinkedList() {
-        System.out.println("Linked List Created");
-    }
+    public LinkedList() {}
 
     // Meth.
     public void pushFront(Node newNode) {
@@ -19,14 +19,14 @@ public class LinkedList {
         if (!this.isEmpty()) {
             this.head = this.head.next;
         } else {
-            System.out.println("Esta vacía hermano!!");
+            throw new ArrayStoreException("Fail popFront. Linked List Vacia");
         }
     }
 
     public Integer topFront() {
         Integer data = null;
         if (this.isEmpty()) {
-            System.out.println("Esta vacía hermano!!");
+            throw new ArrayStoreException("Fail topFront. Linked List Vacia");
         } else {
             data = this.head.key;
         }
@@ -34,11 +34,15 @@ public class LinkedList {
     }
 
     public void pushBack(Node newNode) {
-        Node headRef = this.head;
-        while (headRef.next != null) {
-            headRef = headRef.next;
+        if (this.head==null){
+            this.head = newNode;
+        } else {
+            Node headRef = this.head;
+            while (headRef.next != null) {
+                headRef = headRef.next;
+            }
+            headRef.next = newNode;
         }
-        headRef.next = newNode;
     }
 
     public void popBack() {
@@ -82,7 +86,7 @@ public class LinkedList {
 
     public String toString(){
         StringBuilder list = new StringBuilder();
-        Node headRef = head;
+        Node headRef = this.head;
         while (headRef != null) {
             list.append(headRef.key).append(" ");
             headRef = headRef.next;
@@ -106,6 +110,34 @@ public class LinkedList {
     public boolean find(int keyFind){
         boolean flag = false;
         return flag;
+    }
+
+    public int size(){
+        Node headRef = this.head;
+        int size = 0;
+        if (isEmpty()){
+            return size;
+        } else {
+            while (headRef.next!=null){
+                size++;
+                headRef = headRef.next;
+            }
+            return size+1;
+        }
+    }
+
+    public void reversePrint(){
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        Node headRef = this.head;
+        while (headRef != null) {
+            list.add(headRef.key);
+            headRef = headRef.next;
+        }
+        Collections.reverse(list);
+        for (int i : list){
+            System.out.print(i+" ");
+        }
+        System.out.println();
     }
 
     public static void main() {
