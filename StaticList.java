@@ -5,6 +5,7 @@ public class StaticList{
     int size;
     int[] list;
     int index;
+    int positionFound;
 
 
     public StaticList(int size){
@@ -13,57 +14,65 @@ public class StaticList{
         this.index = 0;
     }
 
-    public void pushBack(int data){
-        if (!full()){
-            list[this.index] = data;
-            this.index += 1;
-            System.out.println("Pushed back in the static list...");
-        } else {
-            System.out.println("La lista está llena");
-        }
-    }
-
-    public void popBack(){
-        if (empty()){
-            System.out.println("La lista esta vacía");
-        } else {
-            this.index -= 1;
-            //this.index = 0;
-            System.out.println("Deleted in static list");
-        }
-    }
-
     public void pushFront(int key){
         if (full()){
-            System.out.println("La lista está llena");
+            throw new ArrayStoreException("Fail pushFront. La lista esta llena. No se pueden guardar más datos");
         } else {
             if (empty()){
                 this.list[0] = key;
-                System.out.println("Pushed front in the static list...");
             } else {
                 for (int i = this.index ; i > 0 ; i--){
                     this.list[i] = this.list[i-1];
                 }
                 this.list[0] = key;
-                System.out.println("Pushed front in the static list...");
             }
             this.index += 1;
         }
     }
 
+    public int topFront(){
+        if (empty()){
+            throw new ArrayStoreException("Fail topFront. La lista esta vacía");
+        } else {
+            return this.list[0];
+        }
+    }
+
     public void popFront(){
         if (empty()){
-            System.out.println("La lista esta vacía");
+            throw new ArrayStoreException("Fail popFront. La lista esta vacía");
         } else {
             for (int i = 0 ; i < this.index-1 ; i++){
                 this.list[i] = this.list[i+1];
             }
-            System.out.println("Pop front in the static list...");
             this.index -= 1;
         }
     }
 
-    //public void addBefore(int )
+    public void pushBack(int key){
+        if (full()){
+            throw new ArrayStoreException("Fail pushBack. La lista esta llena. No se pueden guardar más datos");
+        } else {
+            list[this.index] = key;
+            this.index += 1;
+        }
+    }
+
+    public int topBack(){
+        if (empty()){
+            throw new ArrayStoreException("Fail topBack. La lista esta vacía");
+        } else {
+            return this.list[this.index-1];
+        }
+    }
+
+    public void popBack(){
+        if (empty()){
+            throw new ArrayStoreException("Fail popBack. La lista esta vacía");
+        } else {
+            this.index -= 1;
+        }
+    }
 
     public boolean full(){
         return (this.size)==this.index;
@@ -73,11 +82,53 @@ public class StaticList{
         return this.index==0;
     }
 
-    public void print(){
-        for (int i=0; i<this.index; i++){
-            System.out.print(this.list[i]+" ");
+    public boolean find(int key){
+        boolean found = false;
+        if (empty()){
+            throw new ArrayStoreException("Fail find. La lista esta vacia");
+        } else {
+            for (int i=0; i<this.index; i++){
+                if (this.list[i] == key){
+                    found = true;
+                    this.positionFound = i;
+                    i = this.index;
+                }
+            }
         }
-        System.out.println("");
+        return found;
+    }
+
+    public int findPosition(int key){
+        boolean is = find(key);
+        if (empty()){
+            throw new ArrayStoreException("Fail find. La lista esta vacia");
+        } else if (!is) {
+            throw new ArrayStoreException("Fail findPosition. Key no esta en la lista");
+        } else {
+            return this.positionFound;
+        }
+    }
+
+    public void erase(int key){
+        if (empty()){
+            throw new ArrayStoreException("Fail erase. La lista esta vacia");
+        } else {
+            int pos = findPosition(key);
+            for (int i=0; i<this.index-1; i++){
+                if (i>=pos){
+                    this.list[i] = this.list[i+1];
+                }
+            }
+            this.index -= 1;
+        }
+    }
+
+    public void print(){
+        StringBuilder list = new StringBuilder();
+        for (int i=0; i<this.index; i++){
+            list.append(this.list[i]).append(" ");
+        }
+        System.out.println(list);
     }
 
     public String toString(){
@@ -97,11 +148,9 @@ public class StaticList{
         StaticList theList = new StaticList(size);
 
         theList.pushBack(1);
-        theList.pushFront(2);
-        theList.pushFront(3);
-        theList.pushFront(4);
-        theList.pushFront(5);
-        theList.popFront();
+        theList.pushBack(2);
+        theList.pushBack(3);
+        theList.pushBack(4);
 
         System.out.println(theList);
     }
