@@ -3,8 +3,10 @@ import java.util.*;
 public class main {
 
     public static void main(String[] args) {
-
-        Scanner input = new Scanner(System.in);
+        LinkedList.main();
+        OrderedLinkedList.main();
+        StaticList.main();
+        /*Scanner input = new Scanner(System.in);
 
         boolean exitFlag = true;
 
@@ -48,5 +50,6 @@ public class main {
         }
 
         input.close();
+        */
     }
 }

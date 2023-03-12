@@ -6,7 +6,7 @@ public class LinkedList {
 
     // Constr.
     public LinkedList() {
-        System.out.println("Index List Created");
+        System.out.println("Linked List Created");
     }
 
     // Meth.
@@ -108,7 +108,7 @@ public class LinkedList {
         return flag;
     }
 
-    public static void main(String[] args) {
+    public static void main() {
         Scanner input = new Scanner(System.in);
 
         Node n1 = new Node(8);
@@ -129,6 +129,5 @@ public class LinkedList {
 
         System.out.println(theList);
 
-        input.close();
     }
 }
