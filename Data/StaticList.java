@@ -4,10 +4,10 @@ import java.util.*;
 
 public class StaticList{
 
-    int size;
-    int[] list;
-    int index;
-    int positionFound;
+    public int size;
+    public int[] list;
+    public int index;
+    public  int positionFound;
 
 
     public StaticList(int size){
