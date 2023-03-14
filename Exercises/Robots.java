@@ -28,7 +28,7 @@ public class Robots {
         for (Integer value : values) {
             ins = new Node(value);
             if (value > 0){
-                stackCompLeft.pushFront(ins);
+                stackCompLeft.pushBack(ins);
             } else {
                 stackCompRight.pushBack(ins);
             }
@@ -38,14 +38,14 @@ public class Robots {
         int rRight;
         int match;
         while (!stackCompLeft.isEmpty() && !stackCompRight.isEmpty()){
-            rLeft = stackCompLeft.topFront();
-            stackCompLeft.popFront();
+            rLeft = stackCompLeft.topBack();
+            stackCompLeft.popBack();
             rRight = stackCompRight.topFront();
             stackCompRight.popFront();
             match = rLeft + rRight;
             if (match > 0){
                 ins = new Node(rLeft);
-                stackCompLeft.pushFront(ins);
+                stackCompLeft.pushBack(ins);
             } else if (match < 0) {
                 ins = new Node(rRight);
                 stackCompRight.pushFront(ins);
@@ -57,14 +57,7 @@ public class Robots {
         } else if (stackCompLeft.isEmpty()){
             System.out.println(stackCompRight);
         } else {
-            LinkedList stackCompLeftPr = new LinkedList();
-            while (!stackCompLeft.isEmpty()){
-                int a = stackCompLeft.topBack();
-                stackCompLeft.popBack();
-                ins = new Node(a);
-                stackCompLeftPr.pushBack(ins);
-            }
-            System.out.println(stackCompLeftPr);
+            System.out.println(stackCompLeft);
         }
 
         input.close();
