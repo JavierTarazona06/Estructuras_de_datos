@@ -1,14 +1,14 @@
 package Data;
 public class Node {
-    // Att.
-    public int key;
-    public Node next;
+        // Att.
+        public int key;
+        public Node next;
 
-    // Const.
-    public Node(int data) {
-        this.key = data;
-        this.next = null;
-    }
+        // Const.
+        public Node(int data) {
+            this.key = data;
+            this.next = null;
+        }
 
     // Meth.
 

@@ -87,10 +87,11 @@ public class LinkedList {
     public String toString(){
         StringBuilder list = new StringBuilder();
         Node headRef = this.head;
-        while (headRef != null) {
+        while (headRef.next != null) {
             list.append(headRef.key).append(" ");
             headRef = headRef.next;
         }
+        list.append(headRef.key);
         return list.toString();
     }
 
