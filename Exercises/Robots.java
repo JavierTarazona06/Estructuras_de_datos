@@ -30,7 +30,7 @@ public class Robots {
             if (value > 0){
                 stackCompLeft.pushFront(ins);
             } else {
-                stackCompRight.pushFront(ins);
+                stackCompRight.pushBack(ins);
             }
         }
 
@@ -55,9 +55,16 @@ public class Robots {
         if (stackCompLeft.isEmpty() && stackCompRight.isEmpty()){
             System.out.println("No quedaron robots!");
         } else if (stackCompLeft.isEmpty()){
-            stackCompRight.reversePrint();
+            System.out.println(stackCompRight);
         } else {
-            stackCompLeft.reversePrint();
+            LinkedList stackCompLeftPr = new LinkedList();
+            while (!stackCompLeft.isEmpty()){
+                int a = stackCompLeft.topBack();
+                stackCompLeft.popBack();
+                ins = new Node(a);
+                stackCompLeftPr.pushBack(ins);
+            }
+            System.out.println(stackCompLeftPr);
         }
 
         input.close();
