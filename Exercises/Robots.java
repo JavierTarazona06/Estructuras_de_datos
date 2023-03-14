@@ -2,35 +2,32 @@ package Exercises;
 import Data.LinkedList;
 import Data.Node;
 
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
-
 
 public class Robots {
-
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        ArrayList<Integer> values = new ArrayList<Integer>();
-
-        values = (ArrayList<Integer>) Stream.of(input.nextLine().replaceAll("\\s+$", "").split(" "))
-                .map(Integer::parseInt)
-                .collect(toList());
+        String data = input.nextLine();
+        String current = "";
+        int value;
 
         LinkedList stackCompRight = new LinkedList();
         LinkedList stackCompLeft  = new LinkedList();
-
         Node ins;
 
-        for (Integer value : values) {
-            ins = new Node(value);
-            if (value > 0){
-                stackCompLeft.pushBack(ins);
+        for (int i=0; i<data.length()+1; i++){
+            if (i != data.length() && data.charAt(i)!=' '){
+                current += data.charAt(i);
             } else {
-                stackCompRight.pushBack(ins);
+                value = Integer.parseInt(current);
+                ins = new Node(value);
+                if (value > 0){
+                    stackCompLeft.pushBack(ins);
+                } else {
+                    stackCompRight.pushBack(ins);
+                }
+                current = "";
             }
         }
 
