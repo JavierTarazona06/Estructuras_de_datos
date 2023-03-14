@@ -1,40 +1,46 @@
 package Exercises;
 import Data.*;
 
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
 
 public class ElementosComunes {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        ArrayList<Integer> values1 = new ArrayList<Integer>();
-        ArrayList<Integer> values2 = new ArrayList<Integer>();
-
-        values1 = (ArrayList<Integer>) Stream.of(input.nextLine().replaceAll("\\s+$", "").split(" "))
-                .map(Integer::parseInt)
-                .collect(toList());
-        values2= (ArrayList<Integer>) Stream.of(input.nextLine().replaceAll("\\s+$", "").split(" "))
-                .map(Integer::parseInt)
-                .collect(toList());
+        String data = input.nextLine();
+        String current = "";
+        int value;
 
         Node inst;
 
         LinkedList elements1 = new LinkedList();
+
+        for (int i=0; i<data.length()+1; i++){
+            if (i != data.length() && data.charAt(i)!=' '){
+                current += data.charAt(i);
+            } else {
+                value = Integer.parseInt(current);
+                inst = new Node(value);
+                elements1.pushBack(inst);
+                current = "";
+            }
+        }
+
+        data = input.nextLine();
+        current = "";
+
         LinkedList elements2 = new LinkedList();
 
-        for (int value : values1){
-            inst = new Node(value);
-            elements1.pushBack(inst);
+        for (int i=0; i<data.length()+1; i++){
+            if (i != data.length() && data.charAt(i)!=' '){
+                current += data.charAt(i);
+            } else {
+                value = Integer.parseInt(current);
+                inst = new Node(value);
+                elements2.pushFront(inst);
+                current = "";
+            }
         }
-        for (int value : values2){
-            inst = new Node(value);
-            elements2.pushFront(inst);
-        }
-
 
         LinkedList elementosFuera1 = new LinkedList();
         LinkedList elementosFuera2 = new LinkedList();
