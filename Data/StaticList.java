@@ -135,9 +135,12 @@ public class StaticList{
 
     public String toString(){
         StringBuilder list = new StringBuilder();
-        for (int i=0; i<this.index; i++){
+        int a = 0;
+        for (int i=0; i<this.index-1; i++){
             list.append(this.list[i]).append(" ");
+            a = i;
         }
+        list.append(this.list[a+1]);
         return list.toString();
     }
 
