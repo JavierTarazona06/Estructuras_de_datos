@@ -57,7 +57,7 @@ public class LinkedList {
                 headRef.next = null;
             }
         } else {
-            System.out.println("Esta vacía hermano!!");
+            throw new ArrayStoreException("Fail popBack. Linked List Vacia");
         }
     }
 
@@ -70,7 +70,7 @@ public class LinkedList {
             }
             ans = headRef.key;
         } else {
-            System.out.println("Esta vacía hermano!!");
+            throw new ArrayStoreException("Fail topBack. Linked List Vacia");
         }
         return ans;
     }
