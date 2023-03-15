@@ -1,26 +1,28 @@
 package Data;
-public class Node {
+public class Node<T> {
         // Att.
-        public int key;
-        public Node next;
+        public T key;
+        public Node<T> next;
+        public Node<T> prev;
 
         // Const.
-        public Node(int data) {
+        public Node(T data) {
             this.key = data;
             this.next = null;
+            this.prev = null;
         }
 
     // Meth.
 
-    public int getData() {
+    public T getData() {
         return this.key;
     }
 
-    public Node getNext() {
+    public Node<T> getNext() {
         return this.next;
     }
 
-    public void updateKey(int data) {
+    public void updateKey(T data) {
         this.key = data;
     }
 }

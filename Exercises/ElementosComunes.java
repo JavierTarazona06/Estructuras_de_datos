@@ -11,16 +11,16 @@ public class ElementosComunes {
         String current = "";
         int value;
 
-        Node inst;
+        Node<Integer> inst;
 
-        LinkedList elements1 = new LinkedList();
+        LinkedList<Integer> elements1 = new LinkedList<Integer>();
 
         for (int i=0; i<data.length()+1; i++){
             if (i != data.length() && data.charAt(i)!=' '){
                 current += data.charAt(i);
             } else {
                 value = Integer.parseInt(current);
-                inst = new Node(value);
+                inst = new Node<Integer>(value);
                 elements1.pushBack(inst);
                 current = "";
             }
@@ -29,21 +29,21 @@ public class ElementosComunes {
         data = input.nextLine();
         current = "";
 
-        LinkedList elements2 = new LinkedList();
+        LinkedList<Integer> elements2 = new LinkedList<Integer>();
 
         for (int i=0; i<data.length()+1; i++){
             if (i != data.length() && data.charAt(i)!=' '){
                 current += data.charAt(i);
             } else {
                 value = Integer.parseInt(current);
-                inst = new Node(value);
+                inst = new Node<Integer>(value);
                 elements2.pushFront(inst);
                 current = "";
             }
         }
 
-        LinkedList elementosFuera1 = new LinkedList();
-        LinkedList elementosFuera2 = new LinkedList();
+        LinkedList<Integer> elementosFuera1 = new LinkedList<Integer>();
+        LinkedList<Integer> elementosFuera2 = new LinkedList<Integer>();
 
         while (!elements1.isEmpty()){
             int a = elements1.topFront();
@@ -51,9 +51,9 @@ public class ElementosComunes {
             elements1.popFront();
             elements2.popFront();
             if (a!=b){
-                inst = new Node(a);
+                inst = new Node<Integer>(a);
                 elementosFuera1.pushBack(inst);
-                inst = new Node(b);
+                inst = new Node<Integer>(b);
                 elementosFuera2.pushFront(inst);
             }
         }

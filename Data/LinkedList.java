@@ -1,16 +1,16 @@
 package Data;
+import java.util.Scanner;
 
-import java.util.*;
-public class LinkedList {
+public class LinkedList<T> {
 
     // Attr.
-    public Node head;
+    public Node<T> head;
 
     // Constr.
     public LinkedList() {}
 
     // Meth.
-    public void pushFront(Node newNode) {
+    public void pushFront(Node<T> newNode) {
         newNode.next = this.head;
         this.head = newNode;
     }
@@ -23,8 +23,8 @@ public class LinkedList {
         }
     }
 
-    public Integer topFront() {
-        Integer data = null;
+    public T topFront() {
+        T data = null;
         if (this.isEmpty()) {
             throw new ArrayStoreException("Fail topFront. Linked List Vacia");
         } else {
@@ -33,11 +33,11 @@ public class LinkedList {
         return data;
     }
 
-    public void pushBack(Node newNode) {
+    public void pushBack(Node<T> newNode) {
         if (this.head==null){
             this.head = newNode;
         } else {
-            Node headRef = this.head;
+            Node<T> headRef = this.head;
             while (headRef.next != null) {
                 headRef = headRef.next;
             }
@@ -50,7 +50,7 @@ public class LinkedList {
             if (this.head.next == null) {
                 this.head = null;
             } else {
-                Node headRef = this.head;
+                Node<T> headRef = this.head;
                 while (headRef.next.next != null) {
                     headRef = headRef.next;
                 }
@@ -61,10 +61,10 @@ public class LinkedList {
         }
     }
 
-    public Integer topBack() {
-        Integer ans = null;
+    public T topBack() {
+        T ans = null;
         if (!this.isEmpty()) {
-            Node headRef = this.head;
+            Node<T> headRef = this.head;
             while (headRef.next != null) {
                 headRef = headRef.next;
             }
@@ -76,7 +76,7 @@ public class LinkedList {
     }
 
     public void print() {
-        Node headRef = head;
+        Node<T> headRef = head;
         while (headRef != null) {
             System.out.print(headRef.key + " ");
             headRef = headRef.next;
@@ -89,7 +89,7 @@ public class LinkedList {
             return "";
         } else {
             StringBuilder list = new StringBuilder();
-            Node headRef = this.head;
+            Node<T> headRef = this.head;
             while (headRef.next != null) {
                 list.append(headRef.key).append(" ");
                 headRef = headRef.next;
@@ -99,7 +99,7 @@ public class LinkedList {
         }
     }
 
-    public void printRecursive(Node headRef) {
+    public void printRecursive(Node<T> headRef) {
         if (headRef!=null){
             System.out.print(headRef.key+" ");
             printRecursive(headRef.next);
@@ -118,7 +118,7 @@ public class LinkedList {
     }
 
     public int size(){
-        Node headRef = this.head;
+        Node<T> headRef = this.head;
         int size = 0;
         if (isEmpty()){
             return size;
@@ -132,30 +132,20 @@ public class LinkedList {
     }
 
     public void reversePrint(){
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        Node headRef = this.head;
-        while (headRef != null) {
-            list.add(headRef.key);
-            headRef = headRef.next;
-        }
-        Collections.reverse(list);
-        for (int i : list){
-            System.out.print(i+" ");
-        }
-        System.out.println();
+        throw new Error("Falta programar reverse Print");
     }
 
     public static void main() {
         Scanner input = new Scanner(System.in);
 
-        Node n1 = new Node(8);
-        Node n2 = new Node(5);
-        Node n3 = new Node(3);
-        Node n4 = new Node(2);
-        Node n5 = new Node(1);
-        Node n6 = new Node(1);
+        Node<Integer> n1 = new Node<Integer>(8);
+        Node<Integer> n2 = new Node<Integer>(5);
+        Node<Integer> n3 = new Node<Integer>(3);
+        Node<Integer> n4 = new Node<Integer>(2);
+        Node<Integer> n5 = new Node<Integer>(1);
+        Node<Integer> n6 = new Node<Integer>(1);
 
-        LinkedList theList = new LinkedList();
+        LinkedList<Integer> theList = new LinkedList<Integer>();
         theList.pushFront(n1);
         theList.pushFront(n2);
         theList.pushFront(n3);

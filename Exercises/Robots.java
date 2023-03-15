@@ -12,16 +12,16 @@ public class Robots {
         String current = "";
         int value;
 
-        LinkedList stackCompRight = new LinkedList();
-        LinkedList stackCompLeft  = new LinkedList();
-        Node ins;
+        LinkedList<Integer> stackCompRight = new LinkedList<Integer>();
+        LinkedList<Integer> stackCompLeft  = new LinkedList<Integer>();
+        Node<Integer> ins;
 
         for (int i=0; i<data.length()+1; i++){
             if (i != data.length() && data.charAt(i)!=' '){
                 current += data.charAt(i);
             } else {
                 value = Integer.parseInt(current);
-                ins = new Node(value);
+                ins = new Node<Integer>(value);
                 if (value > 0){
                     stackCompLeft.pushBack(ins);
                 } else {
@@ -41,10 +41,10 @@ public class Robots {
             stackCompRight.popFront();
             match = rLeft + rRight;
             if (match > 0){
-                ins = new Node(rLeft);
+                ins = new Node<Integer>(rLeft);
                 stackCompLeft.pushBack(ins);
             } else if (match < 0) {
-                ins = new Node(rRight);
+                ins = new Node<Integer>(rRight);
                 stackCompRight.pushFront(ins);
             }
         }
