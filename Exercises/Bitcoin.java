@@ -36,7 +36,7 @@ public class Bitcoin {
             dias.pushBack(diasEspera);
         }
 
-        System.out.println(dias);
+        System.out.print(dias);
 
         input.close();
     }
