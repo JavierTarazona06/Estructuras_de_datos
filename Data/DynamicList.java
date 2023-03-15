@@ -1,5 +1,4 @@
 package Data;
-import Data.StaticList;
 
 public class DynamicList extends StaticList {
 

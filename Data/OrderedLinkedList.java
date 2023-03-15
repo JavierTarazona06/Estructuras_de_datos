@@ -2,7 +2,7 @@ package Data;
 
 import java.util.Scanner;
 
-public class OrderedLinkedList extends LinkedList {
+public class OrderedLinkedList extends LinkedList<Integer> {
 
     public OrderedLinkedList(){
         super();
@@ -10,8 +10,8 @@ public class OrderedLinkedList extends LinkedList {
     }
 
     public void delete(int key) {
-        Node ptr = this.head;
-        Node prev = null;
+        Node<Integer> ptr = this.head;
+        Node<Integer> prev = null;
         while (ptr != null && ptr.key != key) {
             prev = ptr;
             ptr = ptr.next;
@@ -23,11 +23,11 @@ public class OrderedLinkedList extends LinkedList {
     public static void main() {
         Scanner input = new Scanner(System.in);
 
-        Node n1 = new Node(8);
-        Node n2 = new Node(5);
-        Node n3 = new Node(3);
-        Node n4 = new Node(2);
-        Node n5 = new Node(1);
+        Node<Integer> n1 = new Node<Integer>(8);
+        Node<Integer> n2 = new Node<Integer>(5);
+        Node<Integer> n3 = new Node<Integer>(3);
+        Node<Integer> n4 = new Node<Integer>(2);
+        Node<Integer> n5 = new Node<Integer>(1);
 
         OrderedLinkedList theList = new OrderedLinkedList();
         theList.pushFront(n1);
