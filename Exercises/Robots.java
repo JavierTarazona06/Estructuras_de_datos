@@ -50,11 +50,11 @@ public class Robots {
         }
 
         if (stackCompLeft.isEmpty() && stackCompRight.isEmpty()){
-            System.out.println("No quedaron robots!");
+            System.out.print("No quedaron robots!");
         } else if (stackCompLeft.isEmpty()){
-            System.out.println(stackCompRight);
+            System.out.print(stackCompRight);
         } else {
-            System.out.println(stackCompLeft);
+            System.out.print(stackCompLeft);
         }
 
         input.close();
