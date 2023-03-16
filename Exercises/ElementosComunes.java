@@ -58,8 +58,11 @@ public class ElementosComunes {
             }
         }
 
-        System.out.println(elementosFuera1);
-        System.out.println(elementosFuera2);
+        if (!elementosFuera1.isEmpty()){
+            System.out.print(elementosFuera1);
+            System.out.println();
+            System.out.print(elementosFuera2);
+        }
 
         input.close();
     }
