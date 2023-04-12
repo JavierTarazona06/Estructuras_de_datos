@@ -39,7 +39,7 @@ public class DynamicList extends StaticList {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main() {
         DynamicList list = new DynamicList();
         list.pushBack(1);
         list.pushBack(2);
