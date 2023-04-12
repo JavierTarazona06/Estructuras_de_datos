@@ -136,6 +136,8 @@ public class StaticList{
     public String toString(){
         if (empty()){
             return "";
+        } else if (this.size==1) {
+            return String.valueOf(this.list[0]);
         } else {
             StringBuilder list = new StringBuilder();
             int a = 0;
@@ -158,8 +160,6 @@ public class StaticList{
 
         theList.pushBack(1);
         theList.pushBack(2);
-        theList.pushBack(3);
-        theList.pushBack(4);
 
         System.out.println(theList);
     }

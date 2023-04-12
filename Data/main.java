@@ -7,7 +7,7 @@ public class main {
     public static void main(String[] args) {
         //LinkedList.main();
         //OrderedLinkedList.main();
-        StaticList.main();
+        //StaticList.main();
         /*Scanner input = new Scanner(System.in);
 
         boolean exitFlag = true;
