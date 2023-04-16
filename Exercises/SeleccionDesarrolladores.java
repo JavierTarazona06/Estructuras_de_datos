@@ -1,7 +1,6 @@
 package Exercises;
 
 import Data.DynamicList;
-import Data.Node;
 
 import java.util.Scanner;
 
@@ -24,7 +23,9 @@ public class SeleccionDesarrolladores {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        int m = Integer.parseInt(input.nextLine());
+        //int m = Integer.parseInt(input.nextLine());
+        int m = input.nextInt();
+        input.nextLine();
 
         DynamicList habilidades = new DynamicList();
 

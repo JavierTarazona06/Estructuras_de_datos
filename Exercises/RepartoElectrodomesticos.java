@@ -28,6 +28,8 @@ public class RepartoElectrodomesticos {
         Scanner input = new Scanner(System.in);
         int repite = Integer.parseInt(input.nextLine());
 
+        String result = "";
+
         for (int i=0;i<repite;i++){
 
             int n_productos = Integer.parseInt(input.nextLine());
@@ -56,28 +58,44 @@ public class RepartoElectrodomesticos {
             String dataProdTiendas = input.nextLine();
             DynamicList n_prod_Tienda =  leerDatosaLista(dataProdTiendas);
 
+            String semiresult = "";
+
+            //System.out.println();
             for (int u=0; u<n_tiendas; u++){
                 int n_prod_Tienda_Actual = n_prod_Tienda.list[u];
-                String result = "[";
+                semiresult += "[";
+                //System.out.print("[");
                 for (int j=0; j<n_prod_Tienda_Actual; j++){
                     if (productos.isEmpty()){
-                        result += "]";
+                        semiresult += "]";
+                        //System.out.print("]");
                         j = n_prod_Tienda_Actual;
                     } else {
                         producto = productos.dequeue();
                         if (j==n_prod_Tienda_Actual-1){
-                            result += producto+"]";
+                            semiresult += producto+"]";
+                            //System.out.print(producto+"]");
                         } else {
-                            result += producto+" ";
+                            if (productos.isEmpty()){
+                                semiresult += producto;
+                            } else {
+                                semiresult += producto+" ";
+                            }
+                            //System.out.print(producto+" ");
                         }
                     }
                 }
-                if (i==repite-1 && u==n_tiendas-1){
-                    System.out.print(result);
-                } else {
-                    System.out.println(result);
+                if (n_prod_Tienda_Actual==0){
+                    semiresult += "]";
                 }
+                if (i!=repite-1 || u!=n_tiendas-1){
+                    semiresult += "\n";
+                }
+                //System.out.println();
             }
+
+            result += semiresult;
         }
+        System.out.print(result);
     }
 }
