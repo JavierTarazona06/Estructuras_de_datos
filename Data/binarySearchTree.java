@@ -219,7 +219,6 @@ public class binarySearchTree<T> {
         binarySearchTree<Character> tree = new binarySearchTree<Character>();
         tree.inputLineTOInsert();
         System.out.println(tree.levelOrder());
-        /*
         System.out.println("Tree size "+tree.size());
         System.out.println("Tree height "+tree.height());
         System.out.println("Tree height 3: "+tree.height(tree.root.left));
@@ -231,11 +230,11 @@ public class binarySearchTree<T> {
         System.out.println("Tree level 4: "+tree.level(4));
         System.out.println("Tree level 1: "+tree.level(1));
         NodeT<Integer> cinco = tree.find(1);
-        System.out.println("Tree find 5: "+cinco.data+" "+tree.level(cinco.data));
+        System.out.println("Tree find "+cinco.data+": "+tree.level(cinco.data));
         System.out.println(cinco.parent.data);
-        */
         NodeT<Integer> cico = tree.find(5);
         System.out.println("Next de "+cico.data+" es "+tree.next(cico).data);
         System.out.println("Range: "+tree.rangeSearch(5,9));
+        tree.inOrder(tree.root);
     }
 }
