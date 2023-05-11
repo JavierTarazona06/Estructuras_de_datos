@@ -25,4 +25,9 @@ public class Node<T> {
     public void updateKey(T data) {
         this.key = data;
     }
+
+    @Override
+    public String toString(){
+        return String.valueOf(this.key);
+    }
 }
