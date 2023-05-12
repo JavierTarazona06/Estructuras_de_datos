@@ -2,7 +2,7 @@ package Data;
 import java.util.Scanner;
 
 public class BST {
-    private NodeT<Integer> root = null;
+    public NodeT<Integer> root = null;
 
     public BST() {
         this.root = null;
@@ -241,6 +241,39 @@ public class BST {
         this.root = this.insert(num,this.root);
     }
 
+    public NodeT<Integer> delete(NodeT<Integer> toDelete, NodeT<Integer> ptr) throws Exception {
+        if (ptr!=null){
+            if (toDelete.key < ptr.key){
+                ptr.left = this.delete(toDelete,ptr.left);
+            } else if (toDelete.key > ptr.key){
+                ptr.right = this.delete(toDelete,ptr.right);
+            } else {
+                //Caso de hojas o un hijo
+                if (ptr.left == null){
+                    return ptr.right;
+                }
+                if (ptr.right == null){
+                    return ptr.left;
+                }
+                //Caso con los dos hijos
+                NodeT<Integer> sig = this.next(ptr);
+                ptr.key = sig.key;
+                ptr.right = this.delete(sig, ptr.right);
+            }
+            return ptr;
+        } else {
+            return null;
+        }
+    }
+
+    public void delete(NodeT<Integer> toDelete) throws Exception {
+        if (this.isNode(toDelete)){
+            this.root = this.delete(toDelete,this.root);
+        } else {
+            throw new Exception("Node not in tree");
+        }
+    }
+
     public String levelOrder(Queue<NodeT<Integer>> level){
         if (level.isEmpty()){
             return "";
@@ -313,30 +346,5 @@ public class BST {
 
     public String posOrder(){
         return this.posOrder(this.root);
-    }
-
-    public static void main(String[] args) throws Exception {
-        BST myTree= new BST();
-        System.out.println(myTree);
-        System.out.println("Ingrese números en una línea:");
-        Scanner input = new Scanner(System.in);
-        //String data = input.nextLine();
-        String data = "5 7 3 2 6 4 8";
-        System.out.println(data);
-        myTree.inputLineTOInsert(data);
-        System.out.println(myTree.size());
-        System.out.println(myTree.levelOrder());
-        System.out.println(myTree.inOrder());
-        System.out.println(myTree.preOrder());
-        System.out.println(myTree.posOrder());
-
-        System.out.println(myTree.parent(myTree.find(5)));
-        System.out.println(myTree.parent(myTree.find(3)));
-        System.out.println(myTree.parent(myTree.find(7)));
-        System.out.println(myTree.parent(myTree.find(2)));
-        System.out.println(myTree.parent(myTree.find(4)));
-        System.out.println(myTree.parent(myTree.find(6)));
-        System.out.println(myTree.parent(myTree.find(8)));
-
     }
 }
