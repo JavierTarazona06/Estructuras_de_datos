@@ -213,7 +213,31 @@ public class BST {
         }
     }
 
-    public void inputLineTOInsert(String data) {
+    public NodeT<Integer> max(NodeT<Integer> ptr){
+        if (ptr.right != null){
+            return this.max(ptr.right);
+        } else {
+            return ptr;
+        }
+    }
+
+    public NodeT<Integer> max(){
+        return this.max(this.root);
+    }
+
+    public NodeT<Integer> min(NodeT<Integer> ptr){
+        if (ptr.left != null){
+            return this.min(ptr.left);
+        } else {
+            return ptr;
+        }
+    }
+
+    public NodeT<Integer> min(){
+        return this.min(this.root);
+    }
+
+    public void inputLineTOInsert(String data) throws Exception {
         String[] dataSet = data.split(" ");
         for (String s : dataSet) {
             this.insert(Integer.parseInt(s));
@@ -274,7 +298,7 @@ public class BST {
         }
     }
 
-    public String levelOrder(Queue<NodeT<Integer>> level){
+    public String levelOrder(Queue<NodeT<Integer>> level, int nlevel) throws Exception {
         if (level.isEmpty()){
             return "";
         } else {
@@ -286,17 +310,23 @@ public class BST {
             if (cur_node.right!=null){
                 level.enqueue(new Node<NodeT<Integer>>(cur_node.right));
             }
-            return cur_node.key+" "+this.levelOrder(level);
+
+            if (nlevel+1 == this.level(cur_node.key)){
+                return "\n"+cur_node.key+" "+this.levelOrder(level, nlevel+1);
+            } else {
+                return cur_node.key+" "+this.levelOrder(level, nlevel);
+            }
         }
     }
 
-    public String levelOrder(){
+    public String levelOrder() throws Exception {
         if (this.isEmpty()){
             return "";
         } else {
             Queue<NodeT<Integer>> level = new Queue<NodeT<Integer>>();
             level.enqueue(new Node<NodeT<Integer>>(this.root));
-            return this.levelOrder(level);
+            int nlevel = 1;
+            return this.levelOrder(level, nlevel);
         }
     }
 
@@ -313,7 +343,23 @@ public class BST {
     }
 
     public String inOrder(){
-        return inOrder(this.root);
+        return this.inOrder(this.root);
+    }
+
+    public String inOrderInv(NodeT<Integer> ptr){
+        if (ptr == null){
+            return "";
+        } else {
+            String result = "";
+            result += this.inOrderInv(ptr.right);
+            result += ptr.key + " ";
+            result += this.inOrderInv(ptr.left);
+            return result;
+        }
+    }
+
+    public String inOrderInv(){
+        return this.inOrderInv(this.root);
     }
 
     public String preOrder(NodeT<Integer> ptr){
