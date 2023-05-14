@@ -138,7 +138,7 @@ public class AVL extends BST{
         System.out.println("Ingrese números en una línea:");
         Scanner input = new Scanner(System.in);
         //String data = input.nextLine();
-        String data = "10 5 15 13 17 19 18 4 3 16 1 2 20 21";
+        String data = "10 5 15 13 17 19 18 4 3 16 1 2 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 302";
         System.out.println(data);
         myTree.inputLineTOInsert(data);
         System.out.println(myTree.size());
