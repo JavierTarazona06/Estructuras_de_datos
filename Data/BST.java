@@ -1,0 +1,396 @@
+package Data;
+import java.util.Scanner;
+
+public class BST {
+    public NodeT<Integer> root = null;
+
+    public BST() {
+        this.root = null;
+    }
+
+    public boolean isEmpty() {
+        return this.root == null;
+    }
+
+    public int size(NodeT<Integer> ptr){
+        if (ptr==null){
+            return 0;
+        } else {
+            return 1 + this.size(ptr.left) + this.size(ptr.right);
+        }
+    }
+
+    public int size(){
+        return this.size(this.root);
+    }
+
+    public int height(NodeT<Integer> ptr){
+        if (ptr==null){
+            return 0;
+        } else {
+            int l = height(ptr.left);
+            int r = height(ptr.right);
+            return l > r ? 1 + l : 1 + r;
+        }
+    }
+
+    public int height(){
+        return height(this.root);
+    }
+
+    public int level(int toSearch, NodeT<Integer> ptr, boolean checked) throws Exception {
+        if (ptr==null){
+            if (!checked){
+                throw new Exception("Node not in tree");
+            } else {
+                return 0;
+            }
+        } else {
+            if (toSearch==ptr.key){
+                return 1;
+            } else if (toSearch > ptr.key){
+                return 1+this.level(toSearch, ptr.right, checked);
+            } else {
+                return 1+this.level(toSearch, ptr.left, checked);
+            }
+        }
+    }
+
+    public int level(int toSearch) throws Exception {
+        return this.level(toSearch,this.root,false);
+    }
+
+    public boolean isNode(NodeT<Integer> ptr) throws Exception {
+        try{
+            this.level(ptr.key);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    public NodeT<Integer> find(int toSearch, NodeT<Integer> ptr) throws Exception {
+        if (toSearch == ptr.key){
+            return ptr;
+        } else if (toSearch > ptr.key) {
+            if (ptr.right != null){
+                return this.find(toSearch, ptr.right);
+            } else {
+                throw new Exception("Node not in tree");
+            }
+        } else {
+            if (ptr.left != null){
+                return this.find(toSearch, ptr.left);
+            } else {
+                throw new Exception("Node not in tree");
+            }
+        }
+    }
+
+    public NodeT<Integer> find(int toSearch) throws Exception {
+        return this.find(toSearch,this.root);
+    }
+
+    public NodeT<Integer> prev(NodeT<Integer> ptr){
+        if (ptr.left != null){
+            return this.rightDescendant(ptr.left);
+        } else {
+            try{
+                return this.leftAncestor(ptr);
+            } catch (Exception NullPointerException){
+                return ptr.left;
+            }
+        }
+    }
+
+    public NodeT<Integer> rightDescendant(NodeT<Integer> ptr){
+        return (ptr.right==null) ? ptr : this.rightDescendant(ptr.right);
+    }
+
+    public NodeT<Integer> leftAncestor(NodeT<Integer> fixed, NodeT<Integer> ptr, Stack<NodeT<Integer>> stack) {
+        if (ptr != null){
+            if (fixed.key < ptr.key){
+                return this.leftAncestor(fixed,ptr.left,stack);
+            } else if (fixed.key > ptr.key) {
+                stack.push(new Node<NodeT<Integer>>(ptr));
+                return this.leftAncestor(fixed,ptr.right,stack);
+            } else {
+                return stack.pop();
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public NodeT<Integer> leftAncestor(NodeT<Integer> fixed) throws Exception {
+        if (this.isNode(fixed)){
+            Stack<NodeT<Integer>> stack = new Stack<NodeT<Integer>>();
+            return this.leftAncestor(fixed,this.root,stack);
+        } else {
+            throw new Exception("Node not in tree");
+        }
+    }
+
+    public NodeT<Integer> next(NodeT<Integer> ptr) throws Exception {
+        if (ptr.right != null){
+            return this.leftDescendant(ptr.right);
+        } else {
+            try{
+                return this.rightAncestor(ptr);
+            } catch (Exception NullPointerException){
+                return ptr.right;
+            }
+        }
+    }
+
+    public NodeT<Integer> leftDescendant(NodeT<Integer> ptr){
+        return (ptr.left == null) ? ptr : this.leftDescendant(ptr.left);
+    }
+
+    public NodeT<Integer> rightAncestor(NodeT<Integer> fixed, NodeT<Integer> ptr, Stack<NodeT<Integer>> stack) {
+        if (ptr != null){
+            if (fixed.key < ptr.key){
+                stack.push(new Node<NodeT<Integer>>(ptr));
+                return this.rightAncestor(fixed,ptr.left,stack);
+            } else if (fixed.key > ptr.key) {
+                return this.rightAncestor(fixed,ptr.right,stack);
+            } else {
+                return stack.pop();
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public NodeT<Integer> rightAncestor(NodeT<Integer> fixed) throws Exception {
+        if (this.isNode(fixed)){
+            Stack<NodeT<Integer>> stack = new Stack<NodeT<Integer>>();
+            return this.rightAncestor(fixed,this.root,stack);
+        } else {
+            throw new Exception("Node not in tree");
+        }
+    }
+
+    public DynamicList rangeSearch(int x, int y) throws Exception {
+        DynamicList values = new DynamicList();
+        NodeT<Integer> st = this.find(x);
+        while (st != null && st.key <= y){
+            values.pushBack(st.key);
+            st = this.next(st);
+        }
+        return values;
+    }
+
+    public DynamicList rangeSearchInvs(int x, int y) throws Exception {
+        DynamicList values = new DynamicList();
+        NodeT<Integer> st = this.find(x);
+        while (st != null && st.key >= y){
+            values.pushBack(st.key);
+            st = this.prev(st);
+        }
+        return values;
+    }
+
+    public NodeT<Integer> parent (NodeT<Integer> son, NodeT<Integer> ptr, NodeT<Integer> poParent){
+        if (ptr != null){
+            if (son.key < ptr.key){
+                return this.parent(son,ptr.left,ptr);
+            } else if (son.key > ptr.key){
+                return this.parent(son,ptr.right,ptr);
+            } else {
+                return poParent;
+            }
+        } else {
+            return ptr;
+        }
+    }
+
+    public NodeT<Integer> parent (NodeT<Integer> toSearch) throws Exception {
+        if (this.isNode(toSearch)){
+            return this.parent(toSearch,this.root,null);
+        } else {
+            throw new Exception("Node not in tree");
+        }
+    }
+
+    public NodeT<Integer> max(NodeT<Integer> ptr){
+        if (ptr.right != null){
+            return this.max(ptr.right);
+        } else {
+            return ptr;
+        }
+    }
+
+    public NodeT<Integer> max(){
+        return this.max(this.root);
+    }
+
+    public NodeT<Integer> min(NodeT<Integer> ptr){
+        if (ptr.left != null){
+            return this.min(ptr.left);
+        } else {
+            return ptr;
+        }
+    }
+
+    public NodeT<Integer> min(){
+        return this.min(this.root);
+    }
+
+    public void inputLineTOInsert(String data) throws Exception {
+        String[] dataSet = data.split(" ");
+        for (String s : dataSet) {
+            this.insert(Integer.parseInt(s));
+        }
+    }
+
+    public NodeT<Integer> insert(int num,NodeT<Integer> ptr) {
+        if (ptr==null) {
+            ptr = new NodeT<Integer>(num);
+        } else {
+            if (num < ptr.key) {
+                ptr.left = this.insert(num, ptr.left);
+            } else {
+                if (num > ptr.key) {
+                    ptr.right = this.insert(num, ptr.right);
+                } else {
+                    System.out.println("El elemento " + num + " ya está en el árbol!");
+                }
+            }
+        }
+        return ptr;
+    }
+
+    public void insert (int num){
+        this.root = this.insert(num,this.root);
+    }
+
+    public NodeT<Integer> delete(NodeT<Integer> toDelete, NodeT<Integer> ptr) throws Exception {
+        if (ptr!=null){
+            if (toDelete.key < ptr.key){
+                ptr.left = this.delete(toDelete,ptr.left);
+            } else if (toDelete.key > ptr.key){
+                ptr.right = this.delete(toDelete,ptr.right);
+            } else {
+                //Caso de hojas o un hijo
+                if (ptr.left == null){
+                    return ptr.right;
+                }
+                if (ptr.right == null){
+                    return ptr.left;
+                }
+                //Caso con los dos hijos
+                NodeT<Integer> sig = this.next(ptr);
+                ptr.key = sig.key;
+                ptr.right = this.delete(sig, ptr.right);
+            }
+            return ptr;
+        } else {
+            return null;
+        }
+    }
+
+    public void delete(NodeT<Integer> toDelete) throws Exception {
+        if (this.isNode(toDelete)){
+            this.root = this.delete(toDelete,this.root);
+        } else {
+            throw new Exception("Node not in tree");
+        }
+    }
+
+    public String levelOrder(Queue<NodeT<Integer>> level, int nlevel) throws Exception {
+        if (level.isEmpty()){
+            return "";
+        } else {
+            NodeT<Integer> cur_node = level.dequeue();
+
+            if (cur_node.left!=null){
+                level.enqueue(new Node<NodeT<Integer>>(cur_node.left));
+            }
+            if (cur_node.right!=null){
+                level.enqueue(new Node<NodeT<Integer>>(cur_node.right));
+            }
+
+            if (nlevel+1 == this.level(cur_node.key)){
+                return "\n"+cur_node.key+" "+this.levelOrder(level, nlevel+1);
+            } else {
+                return cur_node.key+" "+this.levelOrder(level, nlevel);
+            }
+        }
+    }
+
+    public String levelOrder() throws Exception {
+        if (this.isEmpty()){
+            return "";
+        } else {
+            Queue<NodeT<Integer>> level = new Queue<NodeT<Integer>>();
+            level.enqueue(new Node<NodeT<Integer>>(this.root));
+            int nlevel = 1;
+            return this.levelOrder(level, nlevel);
+        }
+    }
+
+    public String inOrder(NodeT<Integer> ptr){
+        if (ptr == null){
+            return "";
+        } else {
+            String result = "";
+            result += this.inOrder(ptr.left);
+            result += ptr.key + " ";
+            result += this.inOrder(ptr.right);
+            return result;
+        }
+    }
+
+    public String inOrder(){
+        return this.inOrder(this.root);
+    }
+
+    public String inOrderInv(NodeT<Integer> ptr){
+        if (ptr == null){
+            return "";
+        } else {
+            String result = "";
+            result += this.inOrderInv(ptr.right);
+            result += ptr.key + " ";
+            result += this.inOrderInv(ptr.left);
+            return result;
+        }
+    }
+
+    public String inOrderInv(){
+        return this.inOrderInv(this.root);
+    }
+
+    public String preOrder(NodeT<Integer> ptr){
+        if (ptr == null){
+            return "";
+        } else {
+            String result = "";
+            result += ptr.key + " ";
+            result += this.preOrder(ptr.left);
+            result += this.preOrder(ptr.right);
+            return result;
+        }
+    }
+
+    public String preOrder(){
+        return this.preOrder(this.root);
+    }
+
+    public String posOrder(NodeT<Integer> ptr){
+        if (ptr == null){
+            return "";
+        } else {
+            String result = "";
+            result += this.posOrder(ptr.left);
+            result += this.posOrder(ptr.right);
+            result += ptr.key + " ";
+            return result;
+        }
+    }
+
+    public String posOrder(){
+        return this.posOrder(this.root);
+    }
+}
