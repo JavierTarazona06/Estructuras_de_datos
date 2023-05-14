@@ -84,30 +84,27 @@ public class StaticList{
         return this.index==0;
     }
 
-    public boolean find(int key){
-        boolean found = false;
+    public int find(int key){
+        int foundPos = -1;
         if (empty()){
             throw new ArrayStoreException("Fail find. La lista esta vacia");
         } else {
             for (int i=0; i<this.index; i++){
                 if (this.list[i] == key){
-                    found = true;
-                    this.positionFound = i;
+                    foundPos = i;
                     i = this.index;
                 }
             }
         }
-        return found;
+        return foundPos;
     }
 
     public int findPosition(int key){
-        boolean is = find(key);
-        if (empty()){
-            throw new ArrayStoreException("Fail find. La lista esta vacia");
-        } else if (!is) {
+        int pos = find(key);
+        if (pos == -1) {
             throw new ArrayStoreException("Fail findPosition. Key no esta en la lista");
         } else {
-            return this.positionFound;
+            return pos;
         }
     }
 
