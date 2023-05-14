@@ -131,24 +131,4 @@ public class AVL extends BST{
             throw new Exception("Node not in tree");
         }
     }
-
-    public static void main(String[] args) throws Exception {
-        AVL myTree= new AVL();
-        System.out.println(myTree);
-        System.out.println("Ingrese números en una línea:");
-        Scanner input = new Scanner(System.in);
-        //String data = input.nextLine();
-        //String data = "10 5 15 13 17 19 18 4 3 16 1 2 20 21";
-        String data = "18 17 21 16";
-        System.out.println(data);
-        myTree.inputLineTOInsert(data);
-        System.out.println(myTree.size());
-        System.out.println(myTree.levelOrder());
-        System.out.println("----");
-        myTree.delete(myTree.find(21));
-        System.out.println(myTree.size());
-        System.out.println(myTree.levelOrder());
-        System.out.println("----");
-        System.out.println(myTree.inOrder());
-    }
 }
