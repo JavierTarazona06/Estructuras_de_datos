@@ -46,6 +46,10 @@ public class AVL extends BST{
         return this.rotateLeft(node_or);
     }
 
+    public int factorBalance(NodeT<Integer> ptr){
+        return this.height(ptr.left)-this.height(ptr.right);
+    }
+
     public NodeT<Integer> insert(int num,NodeT<Integer> ptr) {
         if (ptr==null) {
             ptr = new NodeT<Integer>(num);
@@ -79,12 +83,6 @@ public class AVL extends BST{
     public void insert (int num){
         this.root = this.insert(num,this.root);
     }
-
-    public int factorBalance(NodeT<Integer> ptr){
-        return this.height(ptr.left)-this.height(ptr.right);
-    }
-
-
 
     public NodeT<Integer> delete(NodeT<Integer> toDelete, NodeT<Integer> ptr) throws Exception {
         if (ptr!=null){
