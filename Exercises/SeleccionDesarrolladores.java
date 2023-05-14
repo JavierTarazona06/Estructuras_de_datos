@@ -47,7 +47,7 @@ public class SeleccionDesarrolladores {
             int habiCons = 0;
 
             for (int j=0; j<habilidades.index; j++){
-                if (worker.find(habilidades.list[j])){
+                if (worker.find(habilidades.list[j]) != -1){
                     habiCons += 1;
                 }
             }
