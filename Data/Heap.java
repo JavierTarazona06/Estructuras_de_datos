@@ -144,7 +144,7 @@ public class Heap {
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main() throws Exception {
         Heap myHeap = new Heap();
         String data = "15 10 32 7 8 21 4 2 17";
         myHeap.lineToInsert(data);

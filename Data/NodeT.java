@@ -1,5 +1,5 @@
 package Data;
-public class NodeT<T> {
+public class NodeT<T> implements Comparable<NodeT<T>>{
     // Att.
     public T key;
     public NodeT<T> right;
@@ -28,6 +28,14 @@ public class NodeT<T> {
             return "-";
         } else {
             return String.valueOf(this.key);
+        }
+    }
+
+
+    @Override
+    public int compareTo(NodeT<T> o) {
+        if (this.key > o.key){
+            
         }
     }
 }
