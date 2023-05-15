@@ -46,7 +46,7 @@ public class BST<T extends Comparable<T>> {
                 return 0;
             }
         } else {
-            if (toSearch==ptr.key){
+            if (toSearch.compareTo(ptr.key) == 0){
                 return 1;
             } else if (toSearch.compareTo(ptr.key) > 0){
                 return 1+this.level(toSearch, ptr.right, checked);
@@ -70,7 +70,7 @@ public class BST<T extends Comparable<T>> {
     }
 
     public NodeT<T> find(T toSearch, NodeT<T> ptr) throws Exception {
-        if (toSearch == ptr.key){
+        if (toSearch.compareTo(ptr.key) == 0){
             return ptr;
         } else if (toSearch.compareTo(ptr.key) > 0) {
             if (ptr.right != null){
@@ -392,5 +392,39 @@ public class BST<T extends Comparable<T>> {
 
     public String posOrder(){
         return this.posOrder(this.root);
+    }
+
+    public int distance(NodeT<T> node, NodeT<T> ptr) throws Exception {
+        if (this.isNode(node)){
+            if (node.compareTo(ptr) == 0){
+                return 1;
+            } else {
+                if (node.compareTo(ptr) > 0){
+                    return 1 + this.distance(node, ptr.right);
+                } else {
+                    return 1 + this.distance(node, ptr.left);
+                }
+            }
+        } else {
+            throw new Exception("There is no node "+node.key);
+        }
+    }
+
+    public int minDistanceNodes(NodeT<T> node1, NodeT<T> node2, NodeT<T> ptr) throws Exception {
+        if (node1.compareTo(ptr) < 0 && node2.compareTo(ptr) < 0){
+            return this.minDistanceNodes(node1, node2, ptr.left);
+        } else if (node1.compareTo(ptr) > 0 && node2.compareTo(ptr) > 0){
+            return this.minDistanceNodes(node1, node2, ptr.right);
+        } else {
+            return this.distance(node1,ptr) + this.distance(node2,ptr) - 1;
+        }
+    }
+
+    public int minDistanceNodes(NodeT<T> node1, NodeT<T> node2) throws Exception {
+        if (!this.isEmpty()){
+            return minDistanceNodes(node1,node2,this.root);
+        } else {
+            throw new Exception("Tree is empty");
+        }
     }
 }

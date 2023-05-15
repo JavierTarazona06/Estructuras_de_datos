@@ -49,22 +49,13 @@ public class AVL<T extends Comparable<T>> extends BST {
     }
 
     public NodeT<T> insert(Comparable num, NodeT ptr) {
-        System.out.println(num);
-        try{
-            System.out.println(ptr.key);
-        } catch (Exception e){
-            System.out.println("Error: "+e);
-        }
-        System.out.println("------");
         if (ptr==null) {
             ptr = new NodeT<T>((T) num);
         } else {
-            System.out.println(num);
-            System.out.println(ptr.key);
             if (num.compareTo(ptr.key) < 0) {
                 ptr.left = this.insert(num, ptr.left);
             } else {
-                if (num.compareTo(ptr.key) < 0) {
+                if (num.compareTo(ptr.key) > 0) {
                     ptr.right = this.insert(num, ptr.right);
                 } else {
                     System.out.println("El elemento " + num + " ya está en el árbol!");
