@@ -1,18 +1,16 @@
 package Data;
 
-import java.util.Scanner;
-
-public class AVL extends BST{
+public class AVL<T extends Comparable<T>> extends BST {
 
     public AVL(){
         super();
     }
 
-    public NodeT<Integer> rotateRight(NodeT<Integer> node_original){
+    public NodeT<T> rotateRight(NodeT<T> node_original){
         if (node_original == null || node_original.left == null){
             return node_original;
         } else {
-            NodeT<Integer> new_parent = node_original.left;
+            NodeT<T> new_parent = node_original.left;
             node_original.left = new_parent.right;
             new_parent.right = node_original;
             if (this.root == node_original){
@@ -22,11 +20,11 @@ public class AVL extends BST{
         }
     }
 
-    public NodeT<Integer> rotateLeft(NodeT<Integer> node_original){
+    public NodeT<T> rotateLeft(NodeT<T> node_original){
         if (node_original == null || node_original.right == null){
             return node_original;
         } else {
-            NodeT<Integer> new_parent = node_original.right;
+            NodeT<T> new_parent = node_original.right;
             node_original.right = new_parent.left;
             new_parent.left = node_original;
             if (this.root == node_original){
@@ -36,28 +34,28 @@ public class AVL extends BST{
         }
     }
 
-    public NodeT<Integer> rotateDoubleToRight(NodeT<Integer> node_or){
+    public NodeT<T> rotateDoubleToRight(NodeT<T> node_or){
         node_or.left = this.rotateLeft(node_or.left);
         return this.rotateRight(node_or);
     }
 
-    public NodeT<Integer> rotateDoubleToLeft(NodeT<Integer> node_or){
+    public NodeT<T> rotateDoubleToLeft(NodeT<T> node_or){
         node_or.right = this.rotateRight(node_or.right);
         return this.rotateLeft(node_or);
     }
 
-    public int factorBalance(NodeT<Integer> ptr){
+    public int factorBalance(NodeT<T> ptr){
         return this.height(ptr.left)-this.height(ptr.right);
     }
 
-    public NodeT<Integer> insert(int num,NodeT<Integer> ptr) {
+    public NodeT<T> insert(Comparable num, NodeT ptr) {
         if (ptr==null) {
-            ptr = new NodeT<Integer>(num);
+            ptr = new NodeT<T>((T) num);
         } else {
-            if (num < ptr.key) {
+            if (num.compareTo(ptr.key) < 0) {
                 ptr.left = this.insert(num, ptr.left);
             } else {
-                if (num > ptr.key) {
+                if (num.compareTo(ptr.key) > 0) {
                     ptr.right = this.insert(num, ptr.right);
                 } else {
                     System.out.println("El elemento " + num + " ya está en el árbol!");
@@ -65,30 +63,30 @@ public class AVL extends BST{
             }
         }
         int factorBalance = this.factorBalance(ptr);
-        if ((factorBalance > 1) && (num > ptr.left.key)){
+        if ((factorBalance > 1) && (num.compareTo(ptr.left.key) > 0)){
             ptr = this.rotateDoubleToRight(ptr);
         }
-        if ((factorBalance > 1) && (num < ptr.left.key)){
+        if ((factorBalance > 1) && (num.compareTo(ptr.left.key) < 0)){
             ptr = this.rotateRight(ptr);
         }
-        if ((factorBalance < -1) && (num < ptr.right.key)){
+        if ((factorBalance < -1) && (num.compareTo(ptr.right.key) < 0)){
             ptr = this.rotateDoubleToLeft(ptr);
         }
-        if ((factorBalance < -1) && (num > ptr.right.key)){
+        if ((factorBalance < -1) && (num.compareTo(ptr.right.key) > 0)){
             ptr = this.rotateLeft(ptr);
         }
         return ptr;
     }
 
-    public void insert (int num){
+    public void insert (Comparable num){
         this.root = this.insert(num,this.root);
     }
 
-    public NodeT<Integer> delete(NodeT<Integer> toDelete, NodeT<Integer> ptr) throws Exception {
+    public NodeT<T> delete(NodeT toDelete, NodeT ptr) throws Exception {
         if (ptr!=null){
-            if (toDelete.key < ptr.key){
+            if (toDelete.key.compareTo(ptr.key) < 0){
                 ptr.left = this.delete(toDelete,ptr.left);
-            } else if (toDelete.key > ptr.key){
+            } else if (toDelete.key.compareTo(ptr.key) > 0){
                 ptr.right = this.delete(toDelete,ptr.right);
             } else {
                 //Caso de hojas o un hijo
@@ -99,21 +97,21 @@ public class AVL extends BST{
                     return ptr.left;
                 }
                 //Caso con los dos hijos
-                NodeT<Integer> sig = this.next(ptr);
+                NodeT<T> sig = this.next(ptr);
                 ptr.key = sig.key;
                 ptr.right = this.delete(sig, ptr.right);
             }
             int factorBalance = this.factorBalance(ptr);
-            if ((factorBalance > 1) && (toDelete.key > ptr.left.key)){
+            if ((factorBalance > 1) && (toDelete.key.compareTo(ptr.left.key) > 0)){
                 ptr = this.rotateDoubleToRight(ptr);
             }
-            if ((factorBalance > 1) && (toDelete.key < ptr.left.key)){
+            if ((factorBalance > 1) && (toDelete.key.compareTo(ptr.left.key) < 0)){
                 ptr = this.rotateRight(ptr);
             }
-            if ((factorBalance < -1) && (toDelete.key < ptr.right.key)){
+            if ((factorBalance < -1) && (toDelete.key.compareTo(ptr.right.key) < 0)){
                 ptr = this.rotateDoubleToLeft(ptr);
             }
-            if ((factorBalance < -1) && (toDelete.key > ptr.right.key)){
+            if ((factorBalance < -1) && (toDelete.key.compareTo(ptr.right.key) > 0)){
                 ptr = this.rotateLeft(ptr);
             }
             return ptr;
@@ -122,7 +120,7 @@ public class AVL extends BST{
         }
     }
 
-    public void delete(NodeT<Integer> toDelete) throws Exception {
+    public void delete(NodeT toDelete) throws Exception {
         if (this.isNode(toDelete)){
             this.root = this.delete(toDelete,this.root);
         } else {
