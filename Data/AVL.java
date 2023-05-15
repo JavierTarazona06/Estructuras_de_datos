@@ -94,10 +94,7 @@ public class AVL<T extends Comparable<T>> extends BST {
                 }
             }
         }
-        System.out.println(this.levelOrder());
-        System.out.println("------");
         int factorBalance = this.factorBalance(ptr);
-        System.out.println(factorBalance);
         if ((factorBalance > 1) && (num.compareTo(ptr.left.key) > 0)){
             ptr = this.rotateDoubleToRight(ptr);
         }
@@ -115,13 +112,6 @@ public class AVL<T extends Comparable<T>> extends BST {
 
     public void insertRep(Comparable num) throws Exception {
         this.root = this.insertRep(num,this.root);
-    }
-
-    public void lineTOInsertRep(String data) throws Exception {
-        String[] dataSet = data.split(" ");
-        for (String s : dataSet) {
-            this.insertRep((T) s);
-        }
     }
 
     public NodeT<T> delete(NodeT toDelete, NodeT ptr) throws Exception {
