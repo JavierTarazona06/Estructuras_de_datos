@@ -1,8 +1,8 @@
 package Data;
 import java.util.Scanner;
 
-public class BST {
-    public NodeT<Integer> root = null;
+public class BST<T extends Comparable<T>> {
+    public NodeT<T> root = null;
 
     public BST() {
         this.root = null;
@@ -12,7 +12,7 @@ public class BST {
         return this.root == null;
     }
 
-    public int size(NodeT<Integer> ptr){
+    public int size(NodeT<T> ptr){
         if (ptr==null){
             return 0;
         } else {
@@ -24,7 +24,7 @@ public class BST {
         return this.size(this.root);
     }
 
-    public int height(NodeT<Integer> ptr){
+    public int height(NodeT<T> ptr){
         if (ptr==null){
             return 0;
         } else {
@@ -38,7 +38,7 @@ public class BST {
         return height(this.root);
     }
 
-    public int level(int toSearch, NodeT<Integer> ptr, boolean checked) throws Exception {
+    public int level(T toSearch, NodeT<T> ptr, boolean checked) throws Exception {
         if (ptr==null){
             if (!checked){
                 throw new Exception("Node not in tree");
@@ -48,7 +48,7 @@ public class BST {
         } else {
             if (toSearch==ptr.key){
                 return 1;
-            } else if (toSearch > ptr.key){
+            } else if (toSearch.compareTo(ptr.key) > 0){
                 return 1+this.level(toSearch, ptr.right, checked);
             } else {
                 return 1+this.level(toSearch, ptr.left, checked);
@@ -56,11 +56,11 @@ public class BST {
         }
     }
 
-    public int level(int toSearch) throws Exception {
+    public int level(T toSearch) throws Exception {
         return this.level(toSearch,this.root,false);
     }
 
-    public boolean isNode(NodeT<Integer> ptr) throws Exception {
+    public boolean isNode(NodeT<T> ptr) throws Exception {
         try{
             this.level(ptr.key);
             return true;
@@ -69,10 +69,10 @@ public class BST {
         }
     }
 
-    public NodeT<Integer> find(int toSearch, NodeT<Integer> ptr) throws Exception {
+    public NodeT<T> find(T toSearch, NodeT<T> ptr) throws Exception {
         if (toSearch == ptr.key){
             return ptr;
-        } else if (toSearch > ptr.key) {
+        } else if (toSearch.compareTo(ptr.key) > 0) {
             if (ptr.right != null){
                 return this.find(toSearch, ptr.right);
             } else {
@@ -87,11 +87,11 @@ public class BST {
         }
     }
 
-    public NodeT<Integer> find(int toSearch) throws Exception {
+    public NodeT<T> find(T toSearch) throws Exception {
         return this.find(toSearch,this.root);
     }
 
-    public NodeT<Integer> prev(NodeT<Integer> ptr){
+    public NodeT<T> prev(NodeT<T> ptr){
         if (ptr.left != null){
             return this.rightDescendant(ptr.left);
         } else {
@@ -103,16 +103,16 @@ public class BST {
         }
     }
 
-    public NodeT<Integer> rightDescendant(NodeT<Integer> ptr){
+    public NodeT<T> rightDescendant(NodeT<T> ptr){
         return (ptr.right==null) ? ptr : this.rightDescendant(ptr.right);
     }
 
-    public NodeT<Integer> leftAncestor(NodeT<Integer> fixed, NodeT<Integer> ptr, Stack<NodeT<Integer>> stack) {
+    public NodeT<T> leftAncestor(NodeT<T> fixed, NodeT<T> ptr, Stack<NodeT<T>> stack) {
         if (ptr != null){
-            if (fixed.key < ptr.key){
+            if (fixed.key.compareTo(ptr.key) < 0){
                 return this.leftAncestor(fixed,ptr.left,stack);
-            } else if (fixed.key > ptr.key) {
-                stack.push(new Node<NodeT<Integer>>(ptr));
+            } else if (fixed.key.compareTo(ptr.key) > 0) {
+                stack.push(new Node<NodeT<T>>(ptr));
                 return this.leftAncestor(fixed,ptr.right,stack);
             } else {
                 return stack.pop();
@@ -122,16 +122,16 @@ public class BST {
         }
     }
 
-    public NodeT<Integer> leftAncestor(NodeT<Integer> fixed) throws Exception {
+    public NodeT<T> leftAncestor(NodeT<T> fixed) throws Exception {
         if (this.isNode(fixed)){
-            Stack<NodeT<Integer>> stack = new Stack<NodeT<Integer>>();
+            Stack<NodeT<T>> stack = new Stack<NodeT<T>>();
             return this.leftAncestor(fixed,this.root,stack);
         } else {
             throw new Exception("Node not in tree");
         }
     }
 
-    public NodeT<Integer> next(NodeT<Integer> ptr) throws Exception {
+    public NodeT<T> next(NodeT<T> ptr) throws Exception {
         if (ptr.right != null){
             return this.leftDescendant(ptr.right);
         } else {
@@ -143,16 +143,16 @@ public class BST {
         }
     }
 
-    public NodeT<Integer> leftDescendant(NodeT<Integer> ptr){
+    public NodeT<T> leftDescendant(NodeT<T> ptr){
         return (ptr.left == null) ? ptr : this.leftDescendant(ptr.left);
     }
 
-    public NodeT<Integer> rightAncestor(NodeT<Integer> fixed, NodeT<Integer> ptr, Stack<NodeT<Integer>> stack) {
+    public NodeT<T> rightAncestor(NodeT<T> fixed, NodeT<T> ptr, Stack<NodeT<T>> stack) {
         if (ptr != null){
-            if (fixed.key < ptr.key){
-                stack.push(new Node<NodeT<Integer>>(ptr));
+            if (fixed.key.compareTo(ptr.key) < 0){
+                stack.push(new Node<NodeT<T>>(ptr));
                 return this.rightAncestor(fixed,ptr.left,stack);
-            } else if (fixed.key > ptr.key) {
+            } else if (fixed.key.compareTo(ptr.key) > 0) {
                 return this.rightAncestor(fixed,ptr.right,stack);
             } else {
                 return stack.pop();
@@ -162,40 +162,40 @@ public class BST {
         }
     }
 
-    public NodeT<Integer> rightAncestor(NodeT<Integer> fixed) throws Exception {
+    public NodeT<T> rightAncestor(NodeT<T> fixed) throws Exception {
         if (this.isNode(fixed)){
-            Stack<NodeT<Integer>> stack = new Stack<NodeT<Integer>>();
+            Stack<NodeT<T>> stack = new Stack<NodeT<T>>();
             return this.rightAncestor(fixed,this.root,stack);
         } else {
             throw new Exception("Node not in tree");
         }
     }
 
-    public DynamicList rangeSearch(int x, int y) throws Exception {
+    public DynamicList rangeSearch(T x, T y) throws Exception {
         DynamicList values = new DynamicList();
-        NodeT<Integer> st = this.find(x);
-        while (st != null && st.key <= y){
-            values.pushBack(st.key);
+        NodeT<T> st = this.find(x);
+        while (st != null && ((st.key.compareTo(y) < 0) || (st.key.compareTo(y) == 0))){
+            values.pushBack((Integer) st.key);
             st = this.next(st);
         }
         return values;
     }
 
-    public DynamicList rangeSearchInvs(int x, int y) throws Exception {
+    public DynamicList rangeSearchInvs(T x, T y) throws Exception {
         DynamicList values = new DynamicList();
-        NodeT<Integer> st = this.find(x);
-        while (st != null && st.key >= y){
-            values.pushBack(st.key);
+        NodeT<T> st = this.find(x);
+        while (st != null && ((st.key.compareTo(y) > 0) || (st.key.compareTo(y) == 0))){
+            values.pushBack((Integer) st.key);
             st = this.prev(st);
         }
         return values;
     }
 
-    public NodeT<Integer> parent (NodeT<Integer> son, NodeT<Integer> ptr, NodeT<Integer> poParent){
+    public NodeT<T> parent (NodeT<T> son, NodeT<T> ptr, NodeT<T> poParent){
         if (ptr != null){
-            if (son.key < ptr.key){
+            if (son.key.compareTo(ptr.key) < 0){
                 return this.parent(son,ptr.left,ptr);
-            } else if (son.key > ptr.key){
+            } else if (son.key.compareTo(ptr.key) > 0){
                 return this.parent(son,ptr.right,ptr);
             } else {
                 return poParent;
@@ -205,7 +205,7 @@ public class BST {
         }
     }
 
-    public NodeT<Integer> parent (NodeT<Integer> toSearch) throws Exception {
+    public NodeT<T> parent (NodeT<T> toSearch) throws Exception {
         if (this.isNode(toSearch)){
             return this.parent(toSearch,this.root,null);
         } else {
@@ -213,7 +213,7 @@ public class BST {
         }
     }
 
-    public NodeT<Integer> max(NodeT<Integer> ptr){
+    public NodeT<T> max(NodeT<T> ptr){
         if (ptr.right != null){
             return this.max(ptr.right);
         } else {
@@ -221,11 +221,11 @@ public class BST {
         }
     }
 
-    public NodeT<Integer> max(){
+    public NodeT<T> max(){
         return this.max(this.root);
     }
 
-    public NodeT<Integer> min(NodeT<Integer> ptr){
+    public NodeT<T> min(NodeT<T> ptr){
         if (ptr.left != null){
             return this.min(ptr.left);
         } else {
@@ -233,25 +233,25 @@ public class BST {
         }
     }
 
-    public NodeT<Integer> min(){
+    public NodeT<T> min(){
         return this.min(this.root);
     }
 
-    public void inputLineTOInsert(String data) throws Exception {
+    public void lineTOInsert(String data) throws Exception {
         String[] dataSet = data.split(" ");
         for (String s : dataSet) {
-            this.insert(Integer.parseInt(s));
+            this.insert((T) s);
         }
     }
 
-    public NodeT<Integer> insert(int num,NodeT<Integer> ptr) {
+    public NodeT<T> insert(T num,NodeT<T> ptr) {
         if (ptr==null) {
-            ptr = new NodeT<Integer>(num);
+            ptr = new NodeT<T>(num);
         } else {
-            if (num < ptr.key) {
+            if (num.compareTo(ptr.key) < 0) {
                 ptr.left = this.insert(num, ptr.left);
             } else {
-                if (num > ptr.key) {
+                if (num.compareTo(ptr.key) > 0) {
                     ptr.right = this.insert(num, ptr.right);
                 } else {
                     System.out.println("El elemento " + num + " ya está en el árbol!");
@@ -261,15 +261,15 @@ public class BST {
         return ptr;
     }
 
-    public void insert (int num){
+    public void insert (T num){
         this.root = this.insert(num,this.root);
     }
 
-    public NodeT<Integer> delete(NodeT<Integer> toDelete, NodeT<Integer> ptr) throws Exception {
+    public NodeT<T> delete(NodeT<T> toDelete, NodeT<T> ptr) throws Exception {
         if (ptr!=null){
-            if (toDelete.key < ptr.key){
+            if (toDelete.key.compareTo(ptr.key) < 0){
                 ptr.left = this.delete(toDelete,ptr.left);
-            } else if (toDelete.key > ptr.key){
+            } else if (toDelete.key.compareTo(ptr.key) > 0){
                 ptr.right = this.delete(toDelete,ptr.right);
             } else {
                 //Caso de hojas o un hijo
@@ -280,7 +280,7 @@ public class BST {
                     return ptr.left;
                 }
                 //Caso con los dos hijos
-                NodeT<Integer> sig = this.next(ptr);
+                NodeT<T> sig = this.next(ptr);
                 ptr.key = sig.key;
                 ptr.right = this.delete(sig, ptr.right);
             }
@@ -290,7 +290,7 @@ public class BST {
         }
     }
 
-    public void delete(NodeT<Integer> toDelete) throws Exception {
+    public void delete(NodeT<T> toDelete) throws Exception {
         if (this.isNode(toDelete)){
             this.root = this.delete(toDelete,this.root);
         } else {
@@ -298,17 +298,17 @@ public class BST {
         }
     }
 
-    public String levelOrder(Queue<NodeT<Integer>> level, int nlevel) throws Exception {
+    public String levelOrder(Queue<NodeT<T>> level, int nlevel) throws Exception {
         if (level.isEmpty()){
             return "";
         } else {
-            NodeT<Integer> cur_node = level.dequeue();
+            NodeT<T> cur_node = level.dequeue();
 
             if (cur_node.left!=null){
-                level.enqueue(new Node<NodeT<Integer>>(cur_node.left));
+                level.enqueue(new Node<NodeT<T>>(cur_node.left));
             }
             if (cur_node.right!=null){
-                level.enqueue(new Node<NodeT<Integer>>(cur_node.right));
+                level.enqueue(new Node<NodeT<T>>(cur_node.right));
             }
 
             if (nlevel+1 == this.level(cur_node.key)){
@@ -323,14 +323,14 @@ public class BST {
         if (this.isEmpty()){
             return "";
         } else {
-            Queue<NodeT<Integer>> level = new Queue<NodeT<Integer>>();
-            level.enqueue(new Node<NodeT<Integer>>(this.root));
+            Queue<NodeT<T>> level = new Queue<NodeT<T>>();
+            level.enqueue(new Node<NodeT<T>>(this.root));
             int nlevel = 1;
             return this.levelOrder(level, nlevel);
         }
     }
 
-    public String inOrder(NodeT<Integer> ptr){
+    public String inOrder(NodeT<T> ptr){
         if (ptr == null){
             return "";
         } else {
@@ -346,7 +346,7 @@ public class BST {
         return this.inOrder(this.root);
     }
 
-    public String inOrderInv(NodeT<Integer> ptr){
+    public String inOrderInv(NodeT<T> ptr){
         if (ptr == null){
             return "";
         } else {
@@ -362,7 +362,7 @@ public class BST {
         return this.inOrderInv(this.root);
     }
 
-    public String preOrder(NodeT<Integer> ptr){
+    public String preOrder(NodeT<T> ptr){
         if (ptr == null){
             return "";
         } else {
@@ -378,7 +378,7 @@ public class BST {
         return this.preOrder(this.root);
     }
 
-    public String posOrder(NodeT<Integer> ptr){
+    public String posOrder(NodeT<T> ptr){
         if (ptr == null){
             return "";
         } else {
