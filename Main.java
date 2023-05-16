@@ -1,8 +1,8 @@
+import Data.Heap;
 import Exercises.Islas_Galapagos;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Islas_Galapagos.main();
         //LinkedList.main();
         //OrderedLinkedList.main();
         //StaticList.main();
