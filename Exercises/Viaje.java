@@ -8,8 +8,10 @@ public class Viaje {
         AVL<String> citiesTree = new AVL<String>();
         Scanner input = new Scanner(System.in);
 
-        String data = "Mongui Sachica Tinjaca Combita Chiquiza Sutamarchan Tibasosa Toca Guican Chivata Topaga Soraca Gameza Guayata Raquira Nobsa Tenza Aquitania";
-        citiesTree.lineTOInsert(data);
+        String[] data = "Mongui Sachica Tinjaca Combita Chiquiza Sutamarchan Tibasosa Toca Guican Chivata Topaga Soraca Gameza Guayata Raquira Nobsa Tenza Aquitania".split(" ");
+        for (String s : data){
+            citiesTree.insert(s);
+        }
 
         System.out.println(citiesTree.levelOrder());
         System.out.println(citiesTree.inOrder());

@@ -82,6 +82,38 @@ public class AVL<T extends Comparable<T>> extends BST {
         this.root = this.insert(num,this.root);
     }
 
+    public NodeT<T> insertRep(Comparable num, NodeT ptr) throws Exception {
+        if (ptr==null) {
+            ptr = new NodeT<T>((T) num);
+        } else {
+            if (num.compareTo(ptr.key) < 0) {
+                ptr.left = this.insertRep(num, ptr.left);
+            } else {
+                if (num.compareTo(ptr.key) >= 0) {
+                    ptr.right = this.insertRep(num, ptr.right);
+                }
+            }
+        }
+        int factorBalance = this.factorBalance(ptr);
+        if ((factorBalance > 1) && (num.compareTo(ptr.left.key) > 0)){
+            ptr = this.rotateDoubleToRight(ptr);
+        }
+        if ((factorBalance > 1) && (num.compareTo(ptr.left.key) < 0)){
+            ptr = this.rotateRight(ptr);
+        }
+        if ((factorBalance < -1) && (num.compareTo(ptr.right.key) < 0)){
+            ptr = this.rotateDoubleToLeft(ptr);
+        }
+        if ((factorBalance < -1) && (num.compareTo(ptr.right.key) > 0)){
+            ptr = this.rotateLeft(ptr);
+        }
+        return ptr;
+    }
+
+    public void insertRep(Comparable num) throws Exception {
+        this.root = this.insertRep(num,this.root);
+    }
+
     public NodeT<T> delete(NodeT toDelete, NodeT ptr) throws Exception {
         if (ptr!=null){
             if (toDelete.key.compareTo(ptr.key) < 0){
