@@ -20,52 +20,50 @@ public class Heap {
         return this.HeapArray.list[0];
     }
 
-    public int parent(int toSearch) throws Exception {
-        int index = ((this.HeapArray.findPosition(toSearch)+1) / 2)-1;
-        if (index >= this.getSize()){
-            throw new Exception("No parent: Index "+index+" out of bounds for size "+this.getSize());
+    public int parent(int index) throws Exception {
+        int indexParent = ((index+1) / 2)-1;
+        if (indexParent >= this.getSize()){
+            throw new Exception("No parent: Index "+indexParent+" out of bounds for size "+this.getSize());
         } else {
-            return this.HeapArray.list[index];
+            return this.HeapArray.list[indexParent];
         }
     }
 
-    public int leftChild(int toSearch) throws Exception {
-        int index = ((this.HeapArray.findPosition(toSearch)+1) * 2)-1;
-        if (index >= this.getSize()){
-            throw new Exception("No left child: Index "+index+" out of bounds for size "+this.getSize());
+    public int leftChild(int index) throws Exception {
+        int indexChildL = ((index+1) * 2)-1;
+        if (indexChildL >= this.getSize()){
+            throw new Exception("No left child: Index "+indexChildL+" out of bounds for size "+this.getSize());
         } else {
-            return this.HeapArray.list[index];
+            return this.HeapArray.list[indexChildL];
         }
     }
 
-    public int rightChild(int toSearch) throws Exception {
-        int index = (((this.HeapArray.findPosition(toSearch)+1) * 2) + 1)-1;
-        if (index >= this.getSize()){
-            throw new Exception("No right child: Index "+index+" out of bounds for size "+this.getSize());
+    public int rightChild(int index) throws Exception {
+        int indexChildR = (((index+1) * 2) + 1)-1;
+        if (indexChildR >= this.getSize()){
+            throw new Exception("No right child: Index "+indexChildR+" out of bounds for size "+this.getSize());
         } else {
-            return this.HeapArray.list[index];
+            return this.HeapArray.list[indexChildR];
         }
     }
 
-    public int levelNode(int element) {
-        int i = this.HeapArray.findPosition(element)+1;
+    public int levelNode(int index) {
+        int i = index+1;
         return (int) ((Math.log(i) / Math.log(2)) + 1);
     }
 
-    public void swiftUp(int toSwift) throws Exception {
-        if (this.HeapArray.findPosition(toSwift)>0 && this.parent(toSwift) < toSwift){
-            int temp = this.HeapArray.findPosition(toSwift);
-            int parent = this.parent(toSwift);
-            this.HeapArray.list[this.HeapArray.findPosition(parent)] = toSwift;
-            this.HeapArray.list[temp] = parent;
-            this.swiftUp(toSwift);
+    public void swiftUp(int index) throws Exception {
+        if (index>0 && this.HeapArray.list[this.parent(index)] < this.HeapArray.list[index]){
+            int temp = this.HeapArray.list[this.parent(index)];
+            this.HeapArray.list[this.parent(index)] = this.HeapArray.list[index];
+            this.HeapArray.list[index] = temp;
+            this.swiftUp(this.parent(index));
         }
     }
 
     public void insert(int key) throws Exception {
         this.HeapArray.pushBack(key);
-        this.swiftUp(key);
-        System.out.println(this.HeapArray);
+        this.swiftUp(this.getSize()-1);
     }
 
     public void lineToInsert(String data) throws Exception {
