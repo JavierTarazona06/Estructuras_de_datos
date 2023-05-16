@@ -5,13 +5,36 @@ import java.util.Scanner;
 
 public class Islas_Galapagos {
     public static void main() throws Exception {
-        AVL<Integer> isla = new AVL<Integer>();
+        CompleteTree isla = new CompleteTree();
         Scanner input = new Scanner(System.in);
 
-        //String data = input.nextLine();
-        String[] data =  "4 20 10 -1 16 4 0".split(" ");
+        String[] data =  input.nextLine().split(" ");
         for (String s : data){
-            isla.insertRep(Integer.parseInt(s));
+            isla.insert(Integer.parseInt(s));
         }
+
+        int times = Integer.parseInt(input.nextLine());
+
+        String[] preOrder = isla.preOrder().split(" ");
+        int sumPreOrder = 0;
+        String[] inOrder = isla.inOrder().split(" ");
+        int sumInOrder = 0;
+        String[] posOrder = isla.posOrder().split(" ");
+        int sumPosOrder = 0;
+        for (int i = 0; i < times; i++){
+            sumPreOrder += Integer.parseInt(preOrder[i]);
+            sumInOrder += Integer.parseInt(inOrder[i]);
+            sumPosOrder += Integer.parseInt(posOrder[i]);
+        }
+
+        if (sumPosOrder > sumPreOrder && sumPosOrder > sumInOrder){
+            System.out.print("Postorder " + sumPosOrder);
+        } else if (sumInOrder > sumPreOrder) {
+            System.out.print("Inorder " + sumInOrder);
+        } else {
+            System.out.print("Preorder " + sumPreOrder);
+        }
+
+        input.close();
     }
 }
