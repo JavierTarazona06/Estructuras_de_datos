@@ -3,7 +3,6 @@ import Exercises.Islas_Galapagos;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Heap.main();
         //LinkedList.main();
         //OrderedLinkedList.main();
         //StaticList.main();

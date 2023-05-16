@@ -25,7 +25,7 @@ public class Heap {
         if (indexParent >= this.getSize()){
             throw new Exception("No parent: Index "+indexParent+" out of bounds for size "+this.getSize());
         } else {
-            return this.HeapArray.list[indexParent];
+            return indexParent;
         }
     }
 
@@ -34,7 +34,7 @@ public class Heap {
         if (indexChildL >= this.getSize()){
             throw new Exception("No left child: Index "+indexChildL+" out of bounds for size "+this.getSize());
         } else {
-            return this.HeapArray.list[indexChildL];
+            return indexChildL;
         }
     }
 
@@ -43,7 +43,7 @@ public class Heap {
         if (indexChildR >= this.getSize()){
             throw new Exception("No right child: Index "+indexChildR+" out of bounds for size "+this.getSize());
         } else {
-            return this.HeapArray.list[indexChildR];
+            return indexChildR;
         }
     }
 
@@ -53,11 +53,13 @@ public class Heap {
     }
 
     public void swiftUp(int index) throws Exception {
-        if (index>0 && this.HeapArray.list[this.parent(index)] < this.HeapArray.list[index]){
-            int temp = this.HeapArray.list[this.parent(index)];
-            this.HeapArray.list[this.parent(index)] = this.HeapArray.list[index];
-            this.HeapArray.list[index] = temp;
-            this.swiftUp(this.parent(index));
+        if (index > 0){
+            if (this.HeapArray.list[this.parent(index)] < this.HeapArray.list[index]){
+                int temp = this.HeapArray.list[this.parent(index)];
+                this.HeapArray.list[this.parent(index)] = this.HeapArray.list[index];
+                this.HeapArray.list[index] = temp;
+                this.swiftUp(this.parent(index));
+            }
         }
     }
 
@@ -81,7 +83,7 @@ public class Heap {
             String result = "";
             for (int i = 0; i<this.getSize(); i++){
                 int cur_element = this.HeapArray.list[i];
-                int cur_level = this.levelNode(cur_element);
+                int cur_level = this.levelNode(i);
                 if ((l+1) == cur_level){
                     result += "\n"+cur_element + " ";
                     l += 1;
@@ -93,27 +95,25 @@ public class Heap {
         }
     }
 
-    public void swiftDown(int toSwift) throws Exception {
-        int maxChild = toSwift;
+    public void swiftDown(int index) throws Exception {
+        int maxIndex = index;
         try{
-            int leftChild = this.leftChild(toSwift);
-            if (leftChild > toSwift){
-                maxChild = leftChild;
+            int l = this.leftChild(index);
+            if (l < this.getSize() && this.HeapArray.list[l] > this.HeapArray.list[maxIndex]){
+                maxIndex = l;
             }
         } catch (Exception ignored){}
         try{
-            int rightChild = this.rightChild(toSwift);
-            if (rightChild > toSwift){
-                maxChild = rightChild;
+            int r = this.rightChild(index);
+            if (r < this.getSize() && this.HeapArray.list[r] > this.HeapArray.list[maxIndex]){
+                maxIndex = r;
             }
         } catch (Exception ignored){}
-        if (toSwift != maxChild){
-            int parentPos = this.HeapArray.findPosition(toSwift);
-            int sonPos = this.HeapArray.findPosition(maxChild);
-            this.HeapArray.list[parentPos] = maxChild;
-            this.HeapArray.list[sonPos] = toSwift;
-            this.swiftDown(maxChild);
-            this.swiftDown(toSwift);
+        if (index != maxIndex){
+            int temp = this.HeapArray.list[index];
+            this.HeapArray.list[index] = this.HeapArray.list[maxIndex];
+            this.HeapArray.list[maxIndex] = temp;
+            this.swiftDown(maxIndex);
         }
     }
 
@@ -122,13 +122,13 @@ public class Heap {
         int last = this.HeapArray.list[this.getSize()-1];
         this.HeapArray.list[0] = last;
         this.HeapArray.index -= 1;
-        this.swiftDown(last);
+        this.swiftDown(0);
         return result;
     }
 
-    public void remove(int toRemove) throws Exception {
-        int new_max = this.HeapArray.list[this.HeapArray.findPosition(toRemove)] = this.getMax()+1;
-        this.swiftUp(new_max);
+    public void remove(int index) throws Exception {
+        this.HeapArray.list[index] = this.getMax()+1;
+        this.swiftUp(index);
         this.extractMax();
     }
 
@@ -136,60 +136,58 @@ public class Heap {
         int old_Value = this.HeapArray.list[index];
         this.HeapArray.list[index] = new_Value;
         if (new_Value > old_Value){
-            this.swiftUp(new_Value);
+            this.swiftUp(index);
         } else {
-            this.swiftDown(new_Value);
+            this.swiftDown(index);
         }
     }
 
-    public static void main() throws Exception {
+    public void makeHeap() throws Exception {
+        int node_interno_index = this.parent(this.getSize()-1);
+        for (int i = node_interno_index; i >= 0; i--){
+            this.swiftDown(i);
+        }
+    }
+
+    public void heapSort() throws Exception {
+        int size = this.getSize();
+        for (int i = 0; i < size; i++){
+            int value = this.extractMax();
+            this.HeapArray.list[size-(i+1)] = value;
+        }
+        this.HeapArray.index = size;
+        for (int i = 0; i < size/2; i++){
+            int temp = this.HeapArray.list[i];
+            this.HeapArray.list[i] = this.HeapArray.list[size-(i+1)];
+            this.HeapArray.list[size-(i+1)] = temp;
+        }
+    }
+
+    public void heapSortRev() throws Exception {
+        int size = this.getSize();
+        for (int i = 0; i < size; i++){
+            int value = this.extractMax();
+            this.HeapArray.list[size-(i+1)] = value;
+        }
+        this.HeapArray.index = size;
+    }
+
+    public static void main(String[] args) throws Exception {
         Heap myHeap = new Heap();
-        String data = "15 10 32 7 8 21 4 2 17";
-        myHeap.lineToInsert(data);
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
-        System.out.println(myHeap.extractMax());
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
-        myHeap.remove(8);
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
-        myHeap.changePriority(1,32);
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
-        myHeap.changePriority(2,1);
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
-        System.out.println("------");
-        myHeap.extractMax();
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
+        String data = "15 10 8 21 4";
         String[] dataList = data.split(" ");
         for (String s : dataList){
-            int p = Integer.parseInt(s);
-            System.out.println(p);
-            System.out.println();
-            try{
-                System.out.println(myHeap.parent(p));
-            } catch (Exception e){
-                System.out.println("null");
-            }
-            try{
-                System.out.println(myHeap.leftChild(p));
-            } catch (Exception e){
-                System.out.println("null");
-            }
-            try{
-                System.out.println(myHeap.rightChild(p));
-            } catch (Exception e){
-                System.out.println("null");
-            }
-            try{
-                System.out.println(myHeap.levelNode(p));
-            } catch (Exception e){
-                System.out.println("null");
-            }
-            System.out.println("---------");
+            myHeap.HeapArray.pushBack(Integer.parseInt(s));
         }
+        System.out.println(myHeap.levelOrder());
+        System.out.println("-------");
+        myHeap.makeHeap();
+        System.out.println(myHeap.levelOrder());
+        System.out.println("-------");
+        myHeap.heapSort();
+        System.out.println(myHeap.HeapArray);
+        System.out.println("-------");
+        myHeap.heapSortRev();
+        System.out.println(myHeap.HeapArray);
     }
 }
