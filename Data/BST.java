@@ -237,13 +237,6 @@ public class BST<T extends Comparable<T>> {
         return this.min(this.root);
     }
 
-    public void lineTOInsert(String data) throws Exception {
-        String[] dataSet = data.split(" ");
-        for (String s : dataSet) {
-            this.insert((T) s);
-        }
-    }
-
     public NodeT<T> insert(T num,NodeT<T> ptr) {
         if (ptr==null) {
             ptr = new NodeT<T>(num);

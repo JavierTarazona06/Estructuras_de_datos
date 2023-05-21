@@ -2,70 +2,54 @@ package Data;
 
 public class Heap {
 
-    DynamicList HeapArray = null;
+    public DynamicList array = null;
 
     public Heap() {
-        this.HeapArray = new DynamicList();
+        this.array = new DynamicList();
     }
 
     public int getSize() {
-        return this.HeapArray.index;
+        return this.array.index;
     }
 
     public int getMaxSize() {
-        return this.HeapArray.size;
+        return this.array.size;
     }
 
-    public int getMax() {
-        return this.HeapArray.list[0];
-    }
-
-    public int parent(int toSearch) throws Exception {
-        int index = ((this.HeapArray.findPosition(toSearch)+1) / 2)-1;
-        if (index >= this.getSize()){
-            throw new Exception("No parent: Index "+index+" out of bounds for size "+this.getSize());
+    public int parent(int index) throws Exception {
+        int indexParent = ((index + 1) / 2)-1;
+        if (indexParent >= this.getSize()){
+            throw new Exception("No parent: Index "+ indexParent +" out of bounds for size "+this.getSize());
         } else {
-            return this.HeapArray.list[index];
+            return indexParent;
         }
     }
 
-    public int leftChild(int toSearch) throws Exception {
-        int index = ((this.HeapArray.findPosition(toSearch)+1) * 2)-1;
-        if (index >= this.getSize()){
-            throw new Exception("No left child: Index "+index+" out of bounds for size "+this.getSize());
+    public int leftChild(int index) throws Exception {
+        int indexChildL = ((index + 1) * 2)-1;
+        if (indexChildL >= this.getSize()){
+            throw new Exception("No left child: Index "+indexChildL+" out of bounds for size "+this.getSize());
         } else {
-            return this.HeapArray.list[index];
+            return indexChildL;
         }
     }
 
-    public int rightChild(int toSearch) throws Exception {
-        int index = (((this.HeapArray.findPosition(toSearch)+1) * 2) + 1)-1;
-        if (index >= this.getSize()){
-            throw new Exception("No right child: Index "+index+" out of bounds for size "+this.getSize());
+    public int rightChild(int index) throws Exception {
+        int indexChildR = (((index + 1) * 2) + 1)-1;
+        if (indexChildR >= this.getSize()){
+            throw new Exception("No right child: Index "+indexChildR+" out of bounds for size "+this.getSize());
         } else {
-            return this.HeapArray.list[index];
+            return indexChildR;
         }
     }
 
-    public int levelNode(int element) {
-        int i = this.HeapArray.findPosition(element)+1;
+    public int levelNode(int index) {
+        int i = index + 1;
         return (int) ((Math.log(i) / Math.log(2)) + 1);
     }
 
-    public void swiftUp(int toSwift) throws Exception {
-        if (this.HeapArray.findPosition(toSwift)>0 && this.parent(toSwift) < toSwift){
-            int temp = this.HeapArray.findPosition(toSwift);
-            int parent = this.parent(toSwift);
-            this.HeapArray.list[this.HeapArray.findPosition(parent)] = toSwift;
-            this.HeapArray.list[temp] = parent;
-            this.swiftUp(toSwift);
-        }
-    }
-
     public void insert(int key) throws Exception {
-        this.HeapArray.pushBack(key);
-        this.swiftUp(key);
-        System.out.println(this.HeapArray);
+        this.array.pushBack(key);
     }
 
     public void lineToInsert(String data) throws Exception {
@@ -76,13 +60,13 @@ public class Heap {
     }
 
     public String levelOrder() throws Exception {
-        if (this.HeapArray.empty()){
+        if (this.array.empty()){
             throw new Exception("Empty Heap");
         } else {
             int l = 1;
             String result = "";
             for (int i = 0; i<this.getSize(); i++){
-                int cur_element = this.HeapArray.list[i];
+                int cur_element = this.array.list[i];
                 int cur_level = this.levelNode(cur_element);
                 if ((l+1) == cur_level){
                     result += "\n"+cur_element + " ";
@@ -95,103 +79,86 @@ public class Heap {
         }
     }
 
-    public void swiftDown(int toSwift) throws Exception {
-        int maxChild = toSwift;
-        try{
-            int leftChild = this.leftChild(toSwift);
-            if (leftChild > toSwift){
-                maxChild = leftChild;
+    public String inOrder(int index) throws Exception {
+        if (index == this.getSize()){
+            return "";
+        } else {
+            String result = "";
+            try{
+                result += this.inOrder(this.leftChild(index));
+            } catch (Exception ignored){}
+            int num = this.array.list[index];
+            if (num != -1){
+                result += num + " ";
             }
-        } catch (Exception ignored){}
-        try{
-            int rightChild = this.rightChild(toSwift);
-            if (rightChild > toSwift){
-                maxChild = rightChild;
-            }
-        } catch (Exception ignored){}
-        if (toSwift != maxChild){
-            int parentPos = this.HeapArray.findPosition(toSwift);
-            int sonPos = this.HeapArray.findPosition(maxChild);
-            this.HeapArray.list[parentPos] = maxChild;
-            this.HeapArray.list[sonPos] = toSwift;
-            this.swiftDown(maxChild);
-            this.swiftDown(toSwift);
+            try{
+                result += this.inOrder(this.rightChild(index));
+            } catch (Exception ignored){}
+            return result;
         }
     }
 
-    public int extractMax() throws Exception {
-        int result = this.HeapArray.list[0];
-        int last = this.HeapArray.list[this.getSize()-1];
-        this.HeapArray.list[0] = last;
-        this.HeapArray.index -= 1;
-        this.swiftDown(last);
-        return result;
+    public String inOrder() throws Exception {
+        return this.inOrder(0);
     }
 
-    public void remove(int toRemove) throws Exception {
-        int new_max = this.HeapArray.list[this.HeapArray.findPosition(toRemove)] = this.getMax()+1;
-        this.swiftUp(new_max);
-        this.extractMax();
+    public String preOrder(int index) throws Exception {
+        if (index == this.getSize()){
+            return "";
+        } else {
+            String result = "";
+            int num = this.array.list[index];
+            if (num != -1){
+                result += num + " ";
+            }
+            try{
+                result += this.preOrder(this.leftChild(index));
+            } catch (Exception ignored){}
+            try{
+                result += this.preOrder(this.rightChild(index));
+            } catch (Exception ignored){}
+            return result;
+        }
+    }
+
+    public String preOrder() throws Exception {
+        return this.preOrder(0);
+    }
+
+    public String posOrder(int index) throws Exception {
+        if (index == this.getSize()){
+            return "";
+        } else {
+            String result = "";
+            try{
+                result += this.posOrder(this.leftChild(index));
+            } catch (Exception ignored){}
+            try{
+                result += this.posOrder(this.rightChild(index));
+            } catch (Exception ignored){}
+            int num = this.array.list[index];
+            if (num != -1){
+                result += num + " ";
+            }
+            return result;
+        }
+    }
+
+    public String posOrder() throws Exception {
+        return this.posOrder(0);
+    }
+
+    public void remove(int index) throws Exception {
+        if (index == (this.getSize()-1)){
+            this.array.index -= 1;
+        }else if ((index) < (this.getSize()-1)){
+            this.array.list[index] = this.array.list[index + 1];
+        } else {
+            throw new Exception("Index " + index + " out of bounds for size: " + this.getSize());
+        }
     }
 
     public void changePriority(int index, int new_Value) throws Exception {
-        int old_Value = this.HeapArray.list[index];
-        this.HeapArray.list[index] = new_Value;
-        if (new_Value > old_Value){
-            this.swiftUp(new_Value);
-        } else {
-            this.swiftDown(new_Value);
-        }
-    }
-
-    public static void main() throws Exception {
-        Heap myHeap = new Heap();
-        String data = "15 10 32 7 8 21 4 2 17";
-        myHeap.lineToInsert(data);
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
-        System.out.println(myHeap.extractMax());
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
-        myHeap.remove(8);
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
-        myHeap.changePriority(1,32);
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
-        myHeap.changePriority(2,1);
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
-        System.out.println("------");
-        myHeap.extractMax();
-        System.out.println(myHeap.levelOrder());
-        System.out.println("------");
-        String[] dataList = data.split(" ");
-        for (String s : dataList){
-            int p = Integer.parseInt(s);
-            System.out.println(p);
-            System.out.println();
-            try{
-                System.out.println(myHeap.parent(p));
-            } catch (Exception e){
-                System.out.println("null");
-            }
-            try{
-                System.out.println(myHeap.leftChild(p));
-            } catch (Exception e){
-                System.out.println("null");
-            }
-            try{
-                System.out.println(myHeap.rightChild(p));
-            } catch (Exception e){
-                System.out.println("null");
-            }
-            try{
-                System.out.println(myHeap.levelNode(p));
-            } catch (Exception e){
-                System.out.println("null");
-            }
-            System.out.println("---------");
-        }
+        this.array.list[index] = new_Value;
     }
 }
