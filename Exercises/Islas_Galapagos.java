@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Islas_Galapagos {
     public static void main() throws Exception {
-        CompleteTree isla = new CompleteTree();
+        Heap isla = new Heap();
         Scanner input = new Scanner(System.in);
 
         String[] data =  input.nextLine().split(" ");
