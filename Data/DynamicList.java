@@ -6,6 +6,10 @@ public class DynamicList extends StaticList {
         super(1);
     }
 
+    public void increaseSize(int newSize){
+
+    }
+
     public void pushFront(int key){
         if (full()){
             this.size *= 2;
