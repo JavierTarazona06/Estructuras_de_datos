@@ -1,6 +1,3 @@
-import Data.Heap;
-import Exercises.Islas_Galapagos;
-
 public class Main {
     public static void main(String[] args) throws Exception {
         //LinkedList.main();
