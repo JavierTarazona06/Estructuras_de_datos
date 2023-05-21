@@ -54,37 +54,4 @@ public class DisjointSet{
             }
         }
     }
-
-    public static void main(String[] args) {
-        DisjointSet mySet = new DisjointSet(8);
-        mySet.makeSet();
-        System.out.println("0 1 2 3 4 5 6 7");
-        System.out.println(mySet.parent);
-        System.out.println(mySet.rank);
-        System.out.println("--------");
-        mySet.union(2,7);
-        System.out.println("0 1 2 3 4 5 6 7");
-        System.out.println(mySet.parent);
-        System.out.println(mySet.rank);
-        System.out.println("--------");
-        mySet.union(7,4);
-        System.out.println("0 1 2 3 4 5 6 7");
-        System.out.println(mySet.parent);
-        System.out.println(mySet.rank);
-        System.out.println("--------");
-        mySet.union(3,5);
-        System.out.println("0 1 2 3 4 5 6 7");
-        System.out.println(mySet.parent);
-        System.out.println(mySet.rank);
-        System.out.println("--------");
-        mySet.union(7,5);
-        System.out.println("0 1 2 3 4 5 6 7");
-        System.out.println(mySet.parent);
-        System.out.println(mySet.rank);
-        System.out.println("--------");
-        System.out.println(mySet.find(2));
-        System.out.println("0 1 2 3 4 5 6 7");
-        System.out.println(mySet.parent);
-        System.out.println(mySet.rank);
-    }
 }
