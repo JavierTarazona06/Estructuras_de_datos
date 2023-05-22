@@ -67,7 +67,7 @@ public class Heap {
             String result = "";
             for (int i = 0; i<this.getSize(); i++){
                 int cur_element = this.array.list[i];
-                int cur_level = this.levelNode(cur_element);
+                int cur_level = this.levelNode(i);
                 if ((l+1) == cur_level){
                     result += "\n"+cur_element + " ";
                     l += 1;
@@ -88,9 +88,7 @@ public class Heap {
                 result += this.inOrder(this.leftChild(index));
             } catch (Exception ignored){}
             int num = this.array.list[index];
-            if (num != -1){
-                result += num + " ";
-            }
+            result += num + " ";
             try{
                 result += this.inOrder(this.rightChild(index));
             } catch (Exception ignored){}
@@ -108,9 +106,7 @@ public class Heap {
         } else {
             String result = "";
             int num = this.array.list[index];
-            if (num != -1){
-                result += num + " ";
-            }
+            result += num + " ";
             try{
                 result += this.preOrder(this.leftChild(index));
             } catch (Exception ignored){}
@@ -137,9 +133,7 @@ public class Heap {
                 result += this.posOrder(this.rightChild(index));
             } catch (Exception ignored){}
             int num = this.array.list[index];
-            if (num != -1){
-                result += num + " ";
-            }
+            result += num + " ";
             return result;
         }
     }
@@ -153,6 +147,7 @@ public class Heap {
             this.array.index -= 1;
         }else if ((index) < (this.getSize()-1)){
             this.array.list[index] = this.array.list[index + 1];
+            this.remove(index+1);
         } else {
             throw new Exception("Index " + index + " out of bounds for size: " + this.getSize());
         }
