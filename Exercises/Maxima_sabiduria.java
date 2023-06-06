@@ -14,25 +14,32 @@ public class Maxima_sabiduria {
             int cur_sum = 0;
             int max_sum = 0;
             int level_max=0;
+            int nivel_mas_alto = (int) (Math.log10(tree.getSize())/Math.log10(2))+1;
+            System.out.println(nivel_mas_alto);
             for (int i = 0; i<tree.getSize(); i++){
                 int cur_element = tree.array.list[i];
                 int cur_level = tree.levelNode(i);
+                System.out.println(i + " : " + cur_element + " : " + l);
+                System.out.println("------------");
                 if ((l+1) == cur_level){
                     if (cur_sum > max_sum){
                         max_sum = cur_sum;
-                        cur_sum = 0;
                         level_max = cur_level;
                     }
-                    cur_sum = 0;
                     cur_sum = cur_element;
-                    result += "\n"+cur_element + " ";
                     l += 1;
+                } else if ((l==nivel_mas_alto) && (i==tree.getSize()-1)) {
+                    cur_sum += cur_element;
+                    if (cur_sum > max_sum){
+                        max_sum = cur_sum;
+                        level_max = cur_level;
+                    }
                 } else {
-                    result += cur_element + " ";
                     cur_sum += cur_element;
                 }
             }
-            return level_max-1;
+            //return level_max-1;
+            return max_sum;
         }
     }
 
